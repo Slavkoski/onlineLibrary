@@ -11,4 +11,5 @@ public interface AuthorRepository extends JpaRepository<Author,Integer> {
     public default List<Book> findAllBooks(Author author){
         return author.getBooks();
     }
+    public List<Author> findAllByFirstName(String firstName);
 }
