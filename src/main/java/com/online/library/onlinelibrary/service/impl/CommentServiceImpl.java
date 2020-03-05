@@ -33,4 +33,20 @@ public class CommentServiceImpl implements CommentService {
     public List<Comment> getAllByBookId(final int bookId) {
         return commentRepository.findAllByBook(bookRepository.getOne(bookId));
     }
+
+    @Override
+    public Comment addComment(final String description, final String commentOwnerName, final Integer bookId) {
+        Book book=bookRepository.getOne(bookId);
+        return commentRepository.save(Comment
+                .builder()
+                .comment(description)
+                .commentOwnerName(commentOwnerName)
+                .book(book)
+                .build());
+    }
+
+    @Override
+    public void deleteCommentById(final Integer commentId) {
+        commentRepository.deleteById(commentId);
+    }
 }

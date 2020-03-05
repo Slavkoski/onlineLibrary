@@ -2,6 +2,7 @@ package com.online.library.onlinelibrary.web;
 
 import com.online.library.onlinelibrary.model.Author;
 import com.online.library.onlinelibrary.model.Book;
+import com.online.library.onlinelibrary.model.Genre;
 import com.online.library.onlinelibrary.service.BookService;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,7 +42,21 @@ public class BookController {
     }
 
     @PostMapping(value = "/add")
-    public Book addBook(@RequestParam String title, @RequestParam String description, @RequestParam String publishedYear, @RequestParam Integer[] authors){
-        return bookService.save(title,description,publishedYear, Arrays.asList(authors));
+    public Book addBook(@RequestParam String title,
+                        @RequestParam String description,
+                        @RequestParam String publishedYear,
+                        @RequestParam Integer[] genreId,
+                        @RequestParam Integer[] authors){
+        return bookService.save(title,description,publishedYear,Arrays.asList(genreId), Arrays.asList(authors));
+    }
+
+    @PostMapping(value = "/delete")
+    public void deleteBook(@RequestParam Integer bookId){
+        bookService.deleteBookById(bookId);
+    }
+
+    @PostMapping(value = "/genre")
+    public List<Genre> getGenreForBookId(@RequestParam Integer bookId){
+        return bookService.getGenreByBookId(bookId);
     }
 }

@@ -9,4 +9,12 @@ public interface GenreService {
     List<Genre> getAll();
     List<Book> getAllBooksByGenreId(int genreId);
     List<Book> getAllBooksByGenreName(String genreName);
+
+    Genre addGenre(String name);
+
+    void deleteGenre(Integer genreId);
+
+    Genre getGenreById(Integer genreId);
+
+    List<Genre> getGenreByBookId(Integer bookId);
 }

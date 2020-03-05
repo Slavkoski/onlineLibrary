@@ -9,4 +9,8 @@ public interface CommentService {
     List<Comment> getAll();
     List<Comment> getAllByBook(Book book);
     List<Comment> getAllByBookId(int bookId);
+
+    Comment addComment(String description, String commentOwnerName, Integer bookId);
+
+    void deleteCommentById(Integer commentId);
 }

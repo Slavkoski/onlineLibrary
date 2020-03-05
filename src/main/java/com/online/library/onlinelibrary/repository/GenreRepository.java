@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface GenreRepository extends JpaRepository<Genre,Integer> {
     Genre getByName(String name);
+    List<Genre> findByBooksContains(Book book);
 }

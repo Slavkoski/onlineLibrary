@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,4 +21,9 @@ public class Genre {
     private String name;
     @ManyToMany
     private List<Book> books;
+
+    public Genre(final String name) {
+        this.name = name;
+        this.books=new ArrayList<>();
+    }
 }
