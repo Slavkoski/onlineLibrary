@@ -1,0 +1,25 @@
+
+.img-icon{
+    width: 40px;
+    height: 40px;
+}
+
+@media(max-width: 1440px) {
+
+    .img-icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+}
+
+img {
+    vertical-align: middle;
+    border-style: none;
+}
+
+.w-30{
+    width: 30%;
+}
+
+
