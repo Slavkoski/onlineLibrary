@@ -35,7 +35,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Author addAuthor(String firstName, String lastName, String biography, String birthDate) {
         try {
-            Author author = new Author(firstName, lastName, biography, new SimpleDateFormat("dd/mm/yyyy").parse(birthDate));
+            Author author = new Author(firstName, lastName, biography, new SimpleDateFormat("dd/MM/yyyy").parse(birthDate));
             return authorRepository.save(author);
         } catch (ParseException e) {
             e.printStackTrace();

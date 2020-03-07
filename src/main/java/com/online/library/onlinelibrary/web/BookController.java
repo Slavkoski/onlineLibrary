@@ -5,6 +5,7 @@ import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Genre;
 import com.online.library.onlinelibrary.service.BookService;
 import org.springframework.util.MimeTypeUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
 
+@CrossOrigin({"*", "localhost:3000"})
 @RestController
 @RequestMapping(path = "/books", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class BookController {

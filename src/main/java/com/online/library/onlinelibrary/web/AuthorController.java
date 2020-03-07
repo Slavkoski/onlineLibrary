@@ -5,6 +5,7 @@ import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.repository.AuthorRepository;
 import com.online.library.onlinelibrary.service.AuthorService;
 import org.springframework.util.MimeTypeUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin({"*", "localhost:3000"})
 @RestController
 @RequestMapping(path = "/authors", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class AuthorController {

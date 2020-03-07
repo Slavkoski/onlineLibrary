@@ -4,6 +4,7 @@ import com.online.library.onlinelibrary.model.Comment;
 import com.online.library.onlinelibrary.repository.CommentRepository;
 import com.online.library.onlinelibrary.service.CommentService;
 import org.springframework.util.MimeTypeUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@CrossOrigin({"*", "localhost:3000"})
 @RestController
 @RequestMapping(path = "/comment", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class CommentController {
