@@ -3,6 +3,7 @@ import './Home.css'
 import Nav from "../Nav/Nav";
 import axios from 'axios';
 import {Link} from "react-router-dom";
+import CategoryList from "../CaregoryList/CategoryList";
 
 class Home extends Component {
 
@@ -127,19 +128,24 @@ class Home extends Component {
 
                 <div className="container mt-3" style={{minWidth: "1000px"}}>
                     <div className="row">
-                        {
-                            this.state.data.map((item, index) => {
-                                return (
-                                    <div key={index} className="col-lg-4 col-md-4 col-sm-4">
-                                        <div className="card m-2" style={{width: "18rem"}}>
-                                            <img className="card-img-top"
-                                                 src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                                                 alt="" width={40} height={220}/>
-                                            <div className="card-body">
-                                                <h5 className="card-title"><a
-                                                    href={"/books/details/" + item.id}> {item.title}</a>
-                                                </h5>
-                                                <span className={"card-text"}>
+                        <div className={"col-md-2 col-ld-3 col-sm-12 border"}>
+                            <CategoryList></CategoryList>
+                        </div>
+                        <div className={"col-md-10 col-ld-9 col-sm-12"}>
+                            <div className={"row"}>
+                                {
+                                    this.state.data.map((item, index) => {
+                                        return (
+                                            <div key={index} className="col-lg-4 col-md-4 col-sm-4">
+                                                <div className="card m-2" style={{width: "18rem"}}>
+                                                    <img className="card-img-top"
+                                                         src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                                                         alt="" width={40} height={220}/>
+                                                    <div className="card-body">
+                                                        <h5 className="card-title"><a
+                                                            href={"/books/details/" + item.id}> {item.title}</a>
+                                                        </h5>
+                                                        <span className={"card-text"}>
                                                 {
                                                     item.author.map((author, index) => {
                                                         return (
@@ -147,18 +153,21 @@ class Home extends Component {
                                                     })
                                                 }
                                                 </span>
-                                                <p className={"card-text"}>
-                                                    {item.publishedYear}
-                                                </p>
+                                                        <p className={"card-text"}>
+                                                            {item.publishedYear}
+                                                        </p>
 
-                                                <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
-                                                   href={"/books/details/" + item.id}>Details</a>
+                                                        <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
+                                                           href={"/books/details/" + item.id}>Details</a>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                );
-                            })
-                        }
+                                        );
+                                    })
+                                }
+
+                            </div>
+                        </div>
 
                     </div>
                     <div className="text-center">
