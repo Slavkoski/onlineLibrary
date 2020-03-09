@@ -48,8 +48,9 @@ public class BookController {
                         @RequestParam String description,
                         @RequestParam String publishedYear,
                         @RequestParam Integer[] genreId,
+                        @RequestParam Integer publisherId,
                         @RequestParam Integer[] authors){
-        return bookService.save(title,description,publishedYear,Arrays.asList(genreId), Arrays.asList(authors));
+        return bookService.save(title,description,publishedYear,publisherId,Arrays.asList(genreId), Arrays.asList(authors));
     }
 
     @PostMapping(value = "/delete")

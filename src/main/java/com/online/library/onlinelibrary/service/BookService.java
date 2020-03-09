@@ -7,7 +7,7 @@ import com.online.library.onlinelibrary.model.Genre;
 import java.util.List;
 
 public interface BookService {
-    Book save(String title, String description, String publishedYear, List<Integer> genreId, List<Integer> authors);
+    Book save(String title, String description, String publishedYear,Integer publisherId, List<Integer> genreId, List<Integer> authors);
 
     List<Book> getAll();
 

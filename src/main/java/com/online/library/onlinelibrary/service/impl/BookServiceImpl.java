@@ -3,9 +3,11 @@ package com.online.library.onlinelibrary.service.impl;
 import com.online.library.onlinelibrary.model.Author;
 import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Genre;
+import com.online.library.onlinelibrary.model.Publisher;
 import com.online.library.onlinelibrary.repository.AuthorRepository;
 import com.online.library.onlinelibrary.repository.BookRepository;
 import com.online.library.onlinelibrary.repository.GenreRepository;
+import com.online.library.onlinelibrary.repository.PublisherRepository;
 import com.online.library.onlinelibrary.service.BookService;
 import com.online.library.onlinelibrary.service.GenreService;
 import org.springframework.stereotype.Service;
@@ -19,16 +21,18 @@ public class BookServiceImpl implements BookService {
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
     private final GenreService genreService;
+    private final PublisherRepository publisherRepository;
 
-    public BookServiceImpl(BookRepository bookRepository, final AuthorRepository authorRepository, final GenreRepository genreRepository, final GenreService genreService) {
+    public BookServiceImpl(BookRepository bookRepository, final AuthorRepository authorRepository, final GenreRepository genreRepository, final GenreService genreService, final PublisherRepository publisherRepository) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
         this.genreService = genreService;
+        this.publisherRepository = publisherRepository;
     }
 
     @Override
-    public Book save(final String title, final String description, final String publishedYear,final List<Integer> genreIds, final List<Integer> authors) {
+    public Book save(final String title, final String description, final String publishedYear, final Integer publishedId, final List<Integer> genreIds, final List<Integer> authors) {
         List<Author> authorList = new ArrayList<>();
         Book book = bookRepository.save(new Book(title, description, publishedYear));
         authors.forEach(authorId -> authorList.add(authorRepository.getOne(authorId)));
@@ -37,11 +41,14 @@ public class BookServiceImpl implements BookService {
             author.getBooks().add(book);
             authorRepository.save(author);
         });
-        genreIds.forEach(genreId->{
-            Genre genre=genreRepository.getOne(genreId);
+        genreIds.forEach(genreId -> {
+            Genre genre = genreRepository.getOne(genreId);
             genre.getBooks().add(book);
             genreRepository.save(genre);
         });
+        Publisher publisher=publisherRepository.getOne(publishedId);
+        publisher.getBooks().add(book);
+        publisherRepository.save(publisher);
         return bookRepository.save(book);
     }
 
