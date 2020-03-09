@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import './Home.css'
+import './GenreDetails.css'
 import Nav from "../Nav/Nav";
 import axios from 'axios';
 import {Link} from "react-router-dom";
@@ -10,12 +10,13 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null
+            data: null,
+            id: props.match.params.id
         }
     }
 
     async componentDidMount() {
-        await axios.get("http://localhost:8080/books").then(res => {
+        await axios.get("http://localhost:8080/genre/"+this.state.id).then(res => {
             // console.log(res);
             this.setState({
                 data: res.data
@@ -24,21 +25,6 @@ class Home extends Component {
             console.log("Error: ", err);
         })
     }
-
-    searchMedicine = () => {
-        let inputSearch = document.getElementById('search').value;
-        let url = 'http://localhost:8080/home/search/' + inputSearch;
-
-        axios.get(url).then(res => {
-            console.log(res);
-            this.setState({
-                data: res.data
-            })
-        }).catch(err => {
-
-        })
-    };
-
     // sortAllAsc = () => {
     //     let url = 'http://localhost:8080/home/sort/10/asc';
     //     axios.get(url).then(res => {
@@ -61,46 +47,6 @@ class Home extends Component {
     //         console.log(err)
     //     })
     // };
-    findAllLiquid = () => {
-        let url = 'http://localhost:8080/home/filter/10/liquid';
-        axios.get(url).then(res => {
-            console.log(res);
-            this.setState({
-                data: res.data
-
-            })
-        }).catch(err => {
-            console.log(err)
-        })
-    };
-
-    findAllSolid = () => {
-        let url = 'http://localhost:8080/home/filter/10/solid';
-        axios.get(url).then(res => {
-            console.log(res);
-            this.setState({
-                data: res.data
-            })
-        }).catch(err => {
-            console.log(err)
-        })
-    };
-
-
-    addToCart = (genericName) => {
-        debugger;
-        let username = localStorage.getItem('username');
-        const form = new FormData();
-        form.set('username', username);
-        form.set('genericName', genericName);
-        axios.post("http://localhost:8080/cart/addToCart", form).then(res => {
-            // console.log(res);
-            alert('You added medicine to your cart successfully')
-        }).catch(err => {
-            console.log(err);
-        });
-
-    };
 
     pagination = (e) => {
         debugger;
@@ -133,8 +79,13 @@ class Home extends Component {
                         </div>
                         <div className={"col-md-10 col-ld-9 col-sm-12"}>
                             <div className={"row"}>
+                                <div className={"col"}>
+                                    <h1>{this.state.data.name}</h1>
+                                </div>
+                            </div>
+                            <div className={"row"}>
                                 {
-                                    this.state.data.map((item, index) => {
+                                    this.state.data.books.map((item, index) => {
                                         return (
                                             <div key={index} className="col-lg-4 col-md-4 col-sm-4">
                                                 <div className="card m-2" style={{width: "18rem"}}>
@@ -158,7 +109,7 @@ class Home extends Component {
                                                         </p>
 
                                                         <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
-                                                           href={"/book/details/" + item.id}>Details</a>
+                                                           href={"/books/details/" + item.id}>Details</a>
                                                     </div>
                                                 </div>
                                             </div>
