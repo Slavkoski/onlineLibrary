@@ -2,10 +2,9 @@ import React, {Component} from "react";
 import './GenreDetails.css'
 import Nav from "../Nav/Nav";
 import axios from 'axios';
-import {Link} from "react-router-dom";
 import CategoryList from "../CaregoryList/CategoryList";
 
-class Home extends Component {
+class GenreDetails extends Component {
 
     constructor(props) {
         super(props);
@@ -17,7 +16,6 @@ class Home extends Component {
 
     async componentDidMount() {
         await axios.get("http://localhost:8080/genre/"+this.state.id).then(res => {
-            // console.log(res);
             this.setState({
                 data: res.data
             })
@@ -25,28 +23,6 @@ class Home extends Component {
             console.log("Error: ", err);
         })
     }
-    // sortAllAsc = () => {
-    //     let url = 'http://localhost:8080/home/sort/10/asc';
-    //     axios.get(url).then(res => {
-    //         console.log(res);
-    //         this.setState({
-    //             data: res.data
-    //         })
-    //     }).catch(err => {
-    //         console.log(err)
-    //     })
-    // };
-    // sortAllDesc = () => {
-    //     let url = 'http://localhost:8080/home/sort/10/desc';
-    //     axios.get(url).then(res => {
-    //         console.log(res);
-    //         this.setState({
-    //             data: res.data
-    //         })
-    //     }).catch(err => {
-    //         console.log(err)
-    //     })
-    // };
 
     pagination = (e) => {
         debugger;
@@ -62,7 +38,6 @@ class Home extends Component {
     };
 
     render() {
-        let najaven = localStorage.getItem('username');
 
         if (!this.state.data) {
             return (<Nav></Nav>)
@@ -157,4 +132,4 @@ class Home extends Component {
 
 }
 
-export default Home;
+export default GenreDetails;

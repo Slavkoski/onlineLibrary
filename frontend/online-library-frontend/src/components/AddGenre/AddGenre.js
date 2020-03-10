@@ -1,0 +1,54 @@
+import React, {Component} from "react";
+// import './GenreList.css'
+// import Nav from "../Nav/Nav";
+import axios from 'axios';
+
+class CategoryList extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
+    addGenre(event) {
+        const form = new FormData(event.target);
+        if (form.get("name")) {
+            axios.post("http://localhost:8080/genre/add/", form)
+        }
+    }
+
+    render() {
+
+        return (
+            <div className={"container mt-2 mb-2"}>
+                <div className={"row"}>
+                    <div className={"col"}>
+                        <div className={"row"}>
+                            <div className={"col"}>
+                                Your genre is not here? Create new one.
+                            </div>
+                        </div>
+                        <div className={"row"}>
+                            <div className={"col"}>
+                                <form onSubmit={this.addGenre}>
+                                    <div className={"row"}>
+                                        <div className={"col-md-6 col-ld-6 col-sm-12"}>
+                                            <input type={"text"} name={"name"} placeholder={"Name"} required
+                                                   className={"form-control"}/>
+                                        </div>
+                                        <div className={"col"}>
+                                            <input type={"submit"} className={"btn btn-primary"}
+                                                   value={"Add New Genre"}/>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+}
+
+export default CategoryList;

@@ -7,6 +7,7 @@ import Home from "./components/Home/Home";
 import GenreList from "./components/GenreList/GenreList";
 import GenreDetails from "./components/GenreDetails/GenreDetails"
 import BookDetails from "./components/BookDetails/BookDetails"
+import AuthorList from "./components/AuthorList/AuthorList"
 // import Liquid from "./components/Liquid/Liquid";
 // import Logout from './components/Logout/Logout';
 // import MedicineDetails from "./components/Details/MedicineDetails";
@@ -22,6 +23,7 @@ class App extends Component {
                     <Route path="/genres" component={GenreList}/>
                     <Route path="/genre/:id" component={GenreDetails}/>
                     <Route path="/book/details/:id" component={BookDetails}/>
+                    <Route path="/authors" component={AuthorList}/>
                     {/*<Route path="/signup" component={SignUp}/>*/}
                 </BrowserRouter>
             );

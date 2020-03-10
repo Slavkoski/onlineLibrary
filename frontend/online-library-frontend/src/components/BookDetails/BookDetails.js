@@ -3,23 +3,29 @@ import './BookDetails.css'
 import Nav from "../Nav/Nav";
 import Comment from "../Comment/Comment"
 import axios from 'axios';
-import {Link} from "react-router-dom";
-import CategoryList from "../CaregoryList/CategoryList";
 
-class Home extends Component {
+class BookDetails extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
             data: null,
             id: props.match.params.id,
-            publisher: null
+            publisher: []
         }
     }
 
-    async componentWillMount() {
-        await axios.get("http://localhost:8080/publisher/book/" + this.state.id).then(res => {
+    async componentDidMount() {
+        await axios.get("http://localhost:8080/books/details/" + this.state.id).then(res => {
             // debugger;
+            this.setState({
+                data: res.data,
+                // publisher: this.getPublisher(this.state.id)
+            })
+        }).catch((err) => {
+            console.log("Error: ", err);
+        })
+        await axios.get("http://localhost:8080/publisher/book/" + this.state.id).then(res => {
             this.setState({
                 publisher: res.data
             })
@@ -28,43 +34,7 @@ class Home extends Component {
         });
     }
 
-    async componentDidMount() {
-        await axios.get("http://localhost:8080/books/details/" + this.state.id).then(res => {
-            // debugger;
-            this.setState({
-                data: res.data,
-                publisher: this.getPublisher(this.state.id)
-            })
-        }).catch((err) => {
-            console.log("Error: ", err);
-        })
-    }
-
-    async getPublisher(id) {
-        var publisher = [];
-        await axios.get("http://localhost:8080/publisher/book/" + id).then(res => {
-            publisher = res.data
-        }).catch((err) => {
-            console.log("Error: ", err);
-        });
-        return publisher;
-    }
-
-    pagination = (e) => {
-        debugger;
-        let page = e.target.innerText;
-        axios.get("http://localhost:8080/home/page/" + page).then(res => {
-            this.setState({
-                data: res.data
-            })
-            console.log(res);
-        }).catch(err => {
-            console.log(err);
-        })
-    };
-
     render() {
-        let najaven = localStorage.getItem('username');
 
         if (!this.state.data) {
             return (<Nav></Nav>)
@@ -111,6 +81,12 @@ class Home extends Component {
                                     {this.state.publisher.name}
                                 </div>
                             </div>
+                            <div className={"row mt-3"}>
+                                <div className={"col"}>
+                                    <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
+                                       href={"/"}>Download PDF</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className={"row mt-5"}>
@@ -127,4 +103,4 @@ class Home extends Component {
 
 }
 
-export default Home;
+export default BookDetails;
