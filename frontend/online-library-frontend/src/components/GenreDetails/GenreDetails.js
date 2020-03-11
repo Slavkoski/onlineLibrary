@@ -69,7 +69,7 @@ class GenreDetails extends Component {
                                                          alt="" width={40} height={220}/>
                                                     <div className="card-body">
                                                         <h5 className="card-title"><a
-                                                            href={"/books/details/" + item.id}> {item.title}</a>
+                                                            href={"/book/" + item.id}> {item.title}</a>
                                                         </h5>
                                                         <span className={"card-text"}>
                                                 {
@@ -82,9 +82,8 @@ class GenreDetails extends Component {
                                                         <p className={"card-text"}>
                                                             {item.publishedYear}
                                                         </p>
-
                                                         <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
-                                                           href={"/books/details/" + item.id}>Details</a>
+                                                           href={"/book/" + item.id}>Details</a>
                                                     </div>
                                                 </div>
                                             </div>

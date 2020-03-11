@@ -143,13 +143,13 @@ class Home extends Component {
                                                          alt="" width={40} height={220}/>
                                                     <div className="card-body">
                                                         <h5 className="card-title"><a
-                                                            href={"/books/details/" + item.id}> {item.title}</a>
+                                                            href={"/book/" + item.id}> {item.title}</a>
                                                         </h5>
                                                         <span className={"card-text"}>
                                                 {
                                                     item.author.map((author, index) => {
                                                         return (
-                                                            <a href={"/authors/details/" + author.id}>{author.firstName} {author.lastName}{index === item.author.length - 1 ? "" : ", "} </a>)
+                                                            <a href={"/author/" + author.id}>{author.firstName} {author.lastName}{index === item.author.length - 1 ? "" : ", "} </a>)
                                                     })
                                                 }
                                                 </span>
@@ -158,7 +158,7 @@ class Home extends Component {
                                                         </p>
 
                                                         <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
-                                                           href={"/book/details/" + item.id}>Details</a>
+                                                           href={"/book/" + item.id}>Details</a>
                                                     </div>
                                                 </div>
                                             </div>

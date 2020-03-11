@@ -17,8 +17,8 @@ class CategoryList extends Component {
         await axios.get("http://localhost:8080/genre").then(res => {
             console.log(res);
             res.data.map((category,index)=>{
-                if(category.books.length>5){
-                    category.books=category.books.slice(0,5);
+                if(category.books.length>4){
+                    category.books=category.books.slice(0,4);
                 }
             });
             this.setState({
@@ -63,7 +63,7 @@ class CategoryList extends Component {
                                                                                  alt=""/>
                                                                             <div className="card-body">
                                                                                 <h5><a
-                                                                                    href={"/books/details/" + book.id}> {book.title}</a>
+                                                                                    href={"/book/" + book.id}> {book.title}</a>
                                                                                 </h5>
                                                                             </div>
                                                                         </div>
@@ -79,7 +79,19 @@ class CategoryList extends Component {
                                                 {
                                                     item.books.length !==0 ?
                                                         <div className={"col"}>
-                                                            <a href={"/genre/"+item.id} className="bottom-column">more ...</a>
+                                                            <div className={"row"}>
+                                                                <div className={"col m-2 mt-3"}>
+                                                                    <a href={"/genre/" + item.id}
+                                                                       className="btn btn-primary">more ...</a>
+                                                                </div>
+                                                            </div>
+                                                            <div className={"row"}>
+
+                                                                <div className={"col m-2"}>
+                                                                    <a href={"/book/add"}
+                                                                       className={"btn btn-primary"}>Add Book</a>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                         :
                                                         <div>

@@ -79,6 +79,15 @@ class Nav extends Component {
                                              className="menu_menu nav-item m-4" to={'/publishers'}>
                                         Publishers
                                     </NavLink>
+                                    <NavLink key={'navbar-add-book'}
+                                             style={{
+                                                 color: "white",
+                                                 fontSize: "initial",
+                                                 fontWeight: "bold"
+                                             }}
+                                             className="menu_menu m-4" to={'/addBook'}>
+                                        Add Book
+                                    </NavLink>
                                 </div>
                             </div>
                             <div className={"navbar-nav ml-auto m-2 w-30"}>
