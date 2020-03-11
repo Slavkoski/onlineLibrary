@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,9 +34,17 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author addAuthor(String firstName, String lastName, String biography, String birthDate) {
+    public Author addAuthor(String firstName, String lastName, String city, String country, String biography, String birthDate) {
         try {
-            Author author = new Author(firstName, lastName, biography, new SimpleDateFormat("dd/MM/yyyy").parse(birthDate));
+            Author author = Author.builder()
+                                  .firstName(firstName)
+                                  .lastName(lastName)
+                                  .city(city)
+                                  .country(country)
+                                  .birthDate(new SimpleDateFormat("dd/MM/yyyy").parse(birthDate))
+                                  .biography(biography)
+                                  .books(new ArrayList<>())
+                                  .build();
             return authorRepository.save(author);
         } catch (ParseException e) {
             e.printStackTrace();

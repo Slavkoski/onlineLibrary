@@ -8,7 +8,7 @@ public interface AuthorService {
     List<Author> getAll();
     List<Author> searchByName(String name);
     Author getById(int id);
-    Author addAuthor(String firstName, String lastName, String biography, String birthDate);
+    Author addAuthor(String firstName, String lastName,String city, String country, String biography, String birthDate);
 
     void deleteById(Integer authorId);
 }

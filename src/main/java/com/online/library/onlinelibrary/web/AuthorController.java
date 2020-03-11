@@ -31,8 +31,13 @@ public class AuthorController {
     }
 
     @PostMapping(value = "/add")
-    public Author addAuthor(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String biography, @RequestParam String birthDate) {
-        return authorService.addAuthor(firstName,lastName,biography,birthDate);
+    public Author addAuthor(@RequestParam String firstName,
+                            @RequestParam String lastName,
+                            @RequestParam String city,
+                            @RequestParam String country,
+                            @RequestParam String biography,
+                            @RequestParam String birthDate) {
+        return authorService.addAuthor(firstName,lastName,city,country,biography,birthDate);
     }
 
     @GetMapping(value = "/books/{authorId}")

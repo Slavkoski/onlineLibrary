@@ -2,6 +2,7 @@ package com.online.library.onlinelibrary.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Author {
 
     @Id
@@ -24,15 +26,17 @@ public class Author {
     private String lastName;
     private String biography;
     private Date birthDate;
+    private String city;
+    private String country;
     @JsonIgnore
     @ManyToMany
     private List<Book> books;
 
-    public Author(final String firstName, final String lastName, final String biography, final Date birthDate) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.biography = biography;
-        this.birthDate = birthDate;
-        this.books=new ArrayList<>();
-    }
+//    public Author(final String firstName, final String lastName, final String biography, final Date birthDate) {
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.biography = biography;
+//        this.birthDate = birthDate;
+//        this.books=new ArrayList<>();
+//    }
 }
