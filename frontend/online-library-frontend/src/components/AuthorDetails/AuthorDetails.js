@@ -52,7 +52,7 @@ class AuthorDetails extends Component {
                                                 <h3>{this.state.data.firstName} {this.state.data.lastName}</h3>
                                                 {this.state.data.birthDate.substr(0, this.state.data.birthDate.indexOf("T"))}<br/>
                                                 {this.state.data.city}, {this.state.data.country}<br/>
-                                                <a href={"/"} className={"btn btn-primary"}>Add Book For This Author</a>
+                                                <a href={"/addBook"} className={"btn btn-primary"}>Add Book For This Author</a>
                                             </div>
                                         </div>
                                         <div className={"row"}>
@@ -69,8 +69,7 @@ class AuthorDetails extends Component {
                                                         <div key={index} className="col-lg-3 col-md-3 col-sm-6 p-3">
                                                             <div className="card" style={{width: "15rem"}}>
                                                                 <img className="card-img-top"
-                                                                     src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                                                                     alt="" width={40} height={220}/>
+                                                                     src={"http://localhost:8080/books/image/"+book.id} alt="" width={40} height={220}/>
                                                                 <div className="card-body">
                                                                     <h5 className="card-title"><a
                                                                         href={"/books/details/" + book.id}> {book.title}</a>

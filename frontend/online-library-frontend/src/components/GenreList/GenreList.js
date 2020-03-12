@@ -4,7 +4,7 @@ import Nav from "../Nav/Nav";
 import AddGenre from "../AddGenre/AddGenre"
 import axios from 'axios';
 
-class CategoryList extends Component {
+class GenreList extends Component {
 
     constructor(props) {
         super(props);
@@ -59,7 +59,7 @@ class CategoryList extends Component {
                                                                          className="col-lg-2 col-md-2 col-sm-2 m-2">
                                                                         <div className="card m-2">
                                                                             <img className="card-img-top"
-                                                                                 src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                                                                                 src={"http://localhost:8080/books/image/"+book.id}
                                                                                  alt=""/>
                                                                             <div className="card-body">
                                                                                 <h5><a
@@ -88,7 +88,7 @@ class CategoryList extends Component {
                                                             <div className={"row"}>
 
                                                                 <div className={"col m-2"}>
-                                                                    <a href={"/book/add"}
+                                                                    <a href={"/addBook"}
                                                                        className={"btn btn-primary"}>Add Book</a>
                                                                 </div>
                                                             </div>
@@ -114,4 +114,4 @@ class CategoryList extends Component {
 
 }
 
-export default CategoryList;
+export default GenreList;

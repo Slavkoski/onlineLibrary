@@ -43,7 +43,7 @@ class PublisherDetails extends Component {
                                                 <h3>{this.state.data.name}</h3>
                                                 {this.state.data.description}
                                                 <br/>
-                                                <a href={"/"} className={"btn btn-primary"}>Add Book For This Publisher</a>
+                                                <a href={"/addBook"} className={"btn btn-primary"}>Add Book For This Publisher</a>
                                             </div>
                                         </div>
                                     </div>

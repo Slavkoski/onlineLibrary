@@ -48,7 +48,7 @@ class BookDetails extends Component {
                     <div className="row">
                         <div className={"col-md-6 col-ld-6 col-sm-12"}>
                             <img className={"thumbnail"}
-                                 src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"/>
+                                 src={"http://localhost:8080/books/image/"+this.state.id}/>
                         </div>
                         <div className={"col-md-6 col-ld-6 col-sm-12 p-4"}>
                             <div className={"row"}>
@@ -83,8 +83,8 @@ class BookDetails extends Component {
                             </div>
                             <div className={"row mt-3"}>
                                 <div className={"col"}>
-                                    <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
-                                       href={"/"}>Download PDF</a>
+                                    <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50" target="_blank"
+                                       href={"http://localhost:8080/books/pdf/"+this.state.id}>Download PDF</a>
                                 </div>
                             </div>
                         </div>

@@ -68,7 +68,7 @@ class AuthorList extends Component {
                                                                      className="col-lg-2 col-md-3 col-sm-6 m-2">
                                                                     <div className="card m-2">
                                                                         <img className="card-img-top"
-                                                                             src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+                                                                             src={"http://localhost:8080/books/image/"+book.id}
                                                                              alt=""/>
                                                                         <div className="card-body">
                                                                             <h5><a
@@ -97,9 +97,8 @@ class AuthorList extends Component {
                                                                 </div>
                                                             </div>
                                                             <div className={"row"}>
-
                                                                 <div className={"col m-2"}>
-                                                                    <a href={"/books/add"}
+                                                                    <a href={"/addBook"}
                                                                        className={"btn btn-primary"}>Add Book</a>
                                                                 </div>
                                                             </div>

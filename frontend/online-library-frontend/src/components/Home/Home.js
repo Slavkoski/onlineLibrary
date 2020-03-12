@@ -139,8 +139,7 @@ class Home extends Component {
                                             <div key={index} className="col-lg-4 col-md-4 col-sm-4">
                                                 <div className="card m-2" style={{width: "18rem"}}>
                                                     <img className="card-img-top"
-                                                         src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                                                         alt="" width={40} height={220}/>
+                                                         src={"http://localhost:8080/books/image/"+item.id} alt="" width={40} height={220}/>
                                                     <div className="card-body">
                                                         <h5 className="card-title"><a
                                                             href={"/book/" + item.id}> {item.title}</a>

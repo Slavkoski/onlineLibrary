@@ -2,6 +2,7 @@ import React, {Component} from "react";
 // import './GenreList.css'
 import Nav from "../Nav/Nav";
 import axios from 'axios';
+// import {DropzoneArea} from "material-ui-dropzone"
 
 class AddBook extends Component {
 
@@ -45,10 +46,12 @@ class AddBook extends Component {
     }
 
     addBook(event) {
+        event.persist();
         const form = new FormData(event.target);
-        if (form.get("name")) {
-            axios.post("http://localhost:8080/books/add/", form)
-        }
+            // console.log(form.get("image"));
+        // if (form.get("title")) {
+            axios.post("http://localhost:8080/books/add/", form,{})
+        // }
     }
 
     // addHiddenInput(name,idValue){
@@ -89,6 +92,13 @@ class AddBook extends Component {
                                                 <textarea name={"description"} placeholder={"Description"} required
                                                           className={"form-control"}>
                                                    </textarea>
+                                                <input type={"file"} name={"image"} className={"form-control"} accept={"image/*"}/>
+                                                <input type={"file"} name={"pdf"} className={"form-control"} accept={".pdf"}/>
+                                                <input type={"hidden"} name={"authors"} value={1}/>
+                                                <input type={"hidden"} name={"authors"} value={2}/>
+                                                <input type={"hidden"} name={"genreId"} value={1}/>
+                                                <input type={"hidden"} name={"genreId"} value={2}/>
+                                                <input type={"hidden"} name={"publisherId"} value={1}/>
                                             </div>
                                         </div>
                                         <div className={"row"}>
@@ -97,15 +107,28 @@ class AddBook extends Component {
                                                        value={"Add Book"}/>
                                             </div>
                                         </div>
-                                        <select id="selectId"className={"form-control"} onChange={this.addAuthor()}>
-                                            <option key={-1} selected disabled value={""}>Choose Author</option>
+                                        <div className={"row"}>
+                                            <div className={"col"}>
+                                                {/*<input type={"file"} name={"image"} className={"form-control"} accept={"image/*"}/>*/}
+                                            </div>
+                                        </div>
+                                        {/*<DropzoneArea*/}
+                                        {/*    acceptedFiles={['image/*']}*/}
+                                        {/*    filesLimit={1}*/}
+                                        {/*    maxFileSize={20000000}*/}
+                                        {/*    dropzoneText={"Drop files to upload or click to browse"}*/}
+                                        {/*    name={"image"}*/}
+                                        {/*    useChipsForPreview*/}
+                                        {/*/>*/}
+                                        {/*<select id="selectId"className={"form-control"} onChange={this.addAuthor()}>*/}
+                                        {/*    <option key={-1} selected disabled value={""}>Choose Author</option>*/}
                                             {/*{*/}
                                             {/*    this.state.authors ?*/}
                                             {/*        this.state.authors.map((item,index)=>{*/}
                                             {/*            return <option key={item.id} value={item.id}>{item.firstName+" "+item.lastName}</option>;*/}
                                             {/*        }):("")*/}
                                             {/*}*/}
-                                        </select>
+                                        {/*</select>*/}
 
                                         {
                                             this.state.publishers ?

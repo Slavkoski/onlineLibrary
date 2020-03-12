@@ -3,7 +3,7 @@ import React, {Component} from "react";
 // import Nav from "../Nav/Nav";
 import axios from 'axios';
 
-class CategoryList extends Component {
+class AddGenre extends Component {
 
     constructor(props) {
         super(props);
@@ -51,4 +51,4 @@ class CategoryList extends Component {
 
 }
 
-export default CategoryList;
+export default AddGenre;
