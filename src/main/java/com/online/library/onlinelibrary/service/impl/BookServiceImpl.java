@@ -11,7 +11,9 @@ import com.online.library.onlinelibrary.repository.PublisherRepository;
 import com.online.library.onlinelibrary.service.BookService;
 import com.online.library.onlinelibrary.service.GenreService;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,24 +34,36 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book save(final String title, final String description, final String publishedYear, final Integer publishedId, final List<Integer> genreIds, final List<Integer> authors) {
+    public Book save(final String title, final String description, final String publishedYear, final Integer publishedId, final List<Integer> genreIds, final List<Integer> authors, final MultipartFile image, final MultipartFile pdf) {
         List<Author> authorList = new ArrayList<>();
-        Book book = bookRepository.save(new Book(title, description, publishedYear));
-        authors.forEach(authorId -> authorList.add(authorRepository.getOne(authorId)));
-        authorList.forEach(author -> {
-            book.getAuthor().add(author);
-            author.getBooks().add(book);
-            authorRepository.save(author);
-        });
-        genreIds.forEach(genreId -> {
-            Genre genre = genreRepository.getOne(genreId);
-            genre.getBooks().add(book);
-            genreRepository.save(genre);
-        });
-        Publisher publisher=publisherRepository.getOne(publishedId);
-        publisher.getBooks().add(book);
-        publisherRepository.save(publisher);
-        return bookRepository.save(book);
+        try {
+            Book book = bookRepository.save(Book.builder()
+                                                .title(title)
+                                                .description(description)
+                                                .publishedYear(publishedYear)
+                                                .author(new ArrayList<>())
+                                                .image(image.getBytes())
+                                                .pdf(pdf.getBytes())
+                                                .build());
+            authors.forEach(authorId -> authorList.add(authorRepository.getOne(authorId)));
+            authorList.forEach(author -> {
+                book.getAuthor().add(author);
+                author.getBooks().add(book);
+                authorRepository.save(author);
+            });
+            genreIds.forEach(genreId -> {
+                Genre genre = genreRepository.getOne(genreId);
+                genre.getBooks().add(book);
+                genreRepository.save(genre);
+            });
+            Publisher publisher = publisherRepository.getOne(publishedId);
+            publisher.getBooks().add(book);
+            publisherRepository.save(publisher);
+            return bookRepository.save(book);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
@@ -81,5 +95,15 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Genre> getGenreByBookId(final Integer bookId) {
         return genreService.getGenreByBookId(bookId);
+    }
+
+    @Override
+    public byte[] getImageByBookId(Integer bookId) {
+        return bookRepository.getOne(bookId).getImage();
+    }
+
+    @Override
+    public byte[] getPdfByBookId(Integer bookId) {
+        return bookRepository.getOne(bookId).getPdf();
     }
 }

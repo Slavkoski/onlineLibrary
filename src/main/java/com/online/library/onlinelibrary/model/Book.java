@@ -2,6 +2,7 @@ package com.online.library.onlinelibrary.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Book {
 
     @Id
@@ -27,17 +29,7 @@ public class Book {
     private String publishedYear;
     @Lob
     private byte[] pdf;
+    @Lob
+    private byte[] image;
 
-    public Book(final String title, final String description, final String publishedYear, final List<Author> authorList) {
-        this.title=title;
-        this.description=description;
-        this.publishedYear=publishedYear;
-        this.author=authorList;
-    }
-    public Book(final String title, final String description, final String publishedYear) {
-        this.title=title;
-        this.description=description;
-        this.publishedYear=publishedYear;
-        this.author=new ArrayList<>();
-    }
 }
