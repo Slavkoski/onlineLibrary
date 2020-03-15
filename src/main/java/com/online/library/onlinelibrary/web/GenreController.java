@@ -18,34 +18,34 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/genre", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class GenreController {
-    private final GenreService genreService;
+  private final GenreService genreService;
 
-    public GenreController(final GenreService genreService) {
-        this.genreService = genreService;
-    }
+  public GenreController(final GenreService genreService) {
+    this.genreService = genreService;
+  }
 
-    @GetMapping
-    public List<Genre> getAll(){
-        return genreService.getAll();
-    }
+  @GetMapping
+  public List<Genre> getAll() {
+    return genreService.getAll();
+  }
 
-    @GetMapping(value = "/books/{genreId}")
-    public List<Book> getAllBooksByGenreId(@PathVariable("genreId") Integer genreId){
-        return genreService.getAllBooksByGenreId(genreId);
-    }
+  @GetMapping(value = "/books/{genreId}")
+  public List<Book> getAllBooksByGenreId(@PathVariable("genreId") Integer genreId) {
+    return genreService.getAllBooksByGenreId(genreId);
+  }
 
-    @GetMapping(value = "/{genreId}")
-    public Genre getGenre(@PathVariable("genreId") Integer genreId){
-        return genreService.getGenreById(genreId);
-    }
+  @GetMapping(value = "/{genreId}")
+  public Genre getGenre(@PathVariable("genreId") Integer genreId) {
+    return genreService.getGenreById(genreId);
+  }
 
-    @PostMapping(value = "/add")
-    public Genre addGenre(@RequestParam String name){
-        return genreService.addGenre(name);
-    }
+  @PostMapping(value = "/add")
+  public Genre addGenre(@RequestParam String name) {
+    return genreService.addGenre(name);
+  }
 
-    @PostMapping(value = "/delete")
-    public void deleteGenre(@RequestParam Integer genreId){
-        genreService.deleteGenre(genreId);
-    }
+  @PostMapping(value = "/delete")
+  public void deleteGenre(@RequestParam Integer genreId) {
+    genreService.deleteGenre(genreId);
+  }
 }

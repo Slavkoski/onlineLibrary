@@ -17,19 +17,18 @@ import java.util.List;
 @Builder
 public class Book {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    private String title;
+  private String title;
 
-    @ManyToMany(mappedBy = "books")
-    private List<Author> author;
-    private String description;
-    private String publishedYear;
-    @Lob
-    private byte[] pdf;
-    @Lob
-    private byte[] image;
-
+  @ManyToMany(mappedBy = "books")
+  private List<Author> author;
+  private String description;
+  private String publishedYear;
+  @Lob
+  private byte[] pdf;
+  @Lob
+  private byte[] image;
 }

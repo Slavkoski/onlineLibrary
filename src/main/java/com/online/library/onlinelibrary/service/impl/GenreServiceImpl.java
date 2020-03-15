@@ -12,47 +12,48 @@ import java.util.List;
 
 @Service
 public class GenreServiceImpl implements GenreService {
-    private final GenreRepository genreRepository;
-    private final BookRepository bookRepository;
+  private final GenreRepository genreRepository;
+  private final BookRepository bookRepository;
 
-    public GenreServiceImpl(final GenreRepository genreRepository, final BookRepository bookRepository) {
-        this.genreRepository = genreRepository;
-        this.bookRepository = bookRepository;
-    }
+  public GenreServiceImpl(final GenreRepository genreRepository,
+      final BookRepository bookRepository) {
+    this.genreRepository = genreRepository;
+    this.bookRepository = bookRepository;
+  }
 
-    @Override
-    public List<Genre> getAll() {
-        return genreRepository.findAll();
-    }
+  @Override
+  public List<Genre> getAll() {
+    return genreRepository.findAll();
+  }
 
-    @Override
-    public List<Book> getAllBooksByGenreId(final int genreId) {
-        return genreRepository.getOne(genreId).getBooks();
-    }
+  @Override
+  public List<Book> getAllBooksByGenreId(final int genreId) {
+    return genreRepository.getOne(genreId).getBooks();
+  }
 
-    @Override
-    public List<Book> getAllBooksByGenreName(final String genre) {
-        return genreRepository.getByName(genre).getBooks();
-    }
+  @Override
+  public List<Book> getAllBooksByGenreName(final String genre) {
+    return genreRepository.getByName(genre).getBooks();
+  }
 
-    @Override
-    public Genre addGenre(final String name) {
-        return genreRepository.save(new Genre(name));
-    }
+  @Override
+  public Genre addGenre(final String name) {
+    return genreRepository.save(Genre.builder().name(name).build());
+  }
 
-    @Override
-    public void deleteGenre(final Integer genreId) {
-        genreRepository.deleteById(genreId);
-    }
+  @Override
+  public void deleteGenre(final Integer genreId) {
+    genreRepository.deleteById(genreId);
+  }
 
-    @Override
-    public Genre getGenreById(final Integer genreId) {
-        return genreRepository.getOne(genreId);
-    }
+  @Override
+  public Genre getGenreById(final Integer genreId) {
+    return genreRepository.getOne(genreId);
+  }
 
-    @Override
-    public List<Genre> getGenreByBookId(final Integer bookId) {
-        Book book=bookRepository.getOne(bookId);
-        return genreRepository.findByBooksContains(book);
-    }
+  @Override
+  public List<Genre> getGenreByBookId(final Integer bookId) {
+    Book book = bookRepository.getOne(bookId);
+    return genreRepository.findByBooksContains(book);
+  }
 }

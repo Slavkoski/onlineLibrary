@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BookRepository extends JpaRepository<Book,Integer> {
-    public List<Book> findAll();
-    public List<Book> findAllByAuthor(Author author);
-    public List<Book> findAllByAuthorId(Integer id);
+public interface BookRepository extends JpaRepository<Book, Integer> {
+  public List<Book> findAll();
+
+  public List<Book> findAllByAuthor(Author author);
+
+  public List<Book> findAllByAuthorId(Integer id);
 }

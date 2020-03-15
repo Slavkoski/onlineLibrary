@@ -15,12 +15,14 @@ import java.util.List;
 @Builder
 public class Publisher {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    private String name;
-    private String description;
-    @OneToMany
-    private List<Book> books;
+  private String name;
+  private String description;
+  @Lob
+  private byte[] image;
+  @OneToMany
+  private List<Book> books;
 }

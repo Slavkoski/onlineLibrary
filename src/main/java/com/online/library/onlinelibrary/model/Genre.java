@@ -1,6 +1,7 @@
 package com.online.library.onlinelibrary.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,18 +13,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Genre {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    private String name;
-    @ManyToMany
-    private List<Book> books;
-
-    public Genre(final String name) {
-        this.name = name;
-        this.books=new ArrayList<>();
-    }
+  private String name;
+  @ManyToMany
+  private List<Book> books;
 }

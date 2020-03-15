@@ -2,6 +2,7 @@ package com.online.library.onlinelibrary.web;
 
 import com.online.library.onlinelibrary.model.Publisher;
 import com.online.library.onlinelibrary.service.PublisherService;
+import java.io.IOException;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,40 +13,42 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin({"*", "localhost:3000"})
 @RestController
 @RequestMapping(path = "/publisher", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class PublisherController {
-    private final PublisherService publisherService;
+  private final PublisherService publisherService;
 
-    public PublisherController(final PublisherService publisherService) {
-        this.publisherService = publisherService;
-    }
+  public PublisherController(final PublisherService publisherService) {
+    this.publisherService = publisherService;
+  }
 
-    @GetMapping
-    public List<Publisher> getAll(){
-        return publisherService.getAll();
-    }
+  @GetMapping
+  public List<Publisher> getAll() {
+    return publisherService.getAll();
+  }
 
-    @GetMapping("/{publisherId}")
-    public Publisher getDetailsByPublisherId(@PathVariable Integer publisherId){
-        return publisherService.getById(publisherId);
-    }
+  @GetMapping("/{publisherId}")
+  public Publisher getDetailsByPublisherId(@PathVariable Integer publisherId) {
+    return publisherService.getById(publisherId);
+  }
 
-    @GetMapping("/book/{bookId}")
-    public Publisher getByBookId(@PathVariable Integer bookId){
-        return publisherService.getByBookId(bookId);
-    }
+  @GetMapping("/book/{bookId}")
+  public Publisher getByBookId(@PathVariable Integer bookId) {
+    return publisherService.getByBookId(bookId);
+  }
 
-    @PostMapping("/add")
-    public Publisher add(@RequestParam String name,
-                         @RequestParam String description){
-        return publisherService.addPublisher(name,description);
-    }
+  @PostMapping("/add")
+  public Publisher add(@RequestParam String name,
+      @RequestParam String description,
+      @RequestParam MultipartFile image) throws IOException {
+    return publisherService.addPublisher(name, description, image);
+  }
 
-    @PostMapping("/delete")
-    public void delete(@RequestParam Integer publisherId){
-        publisherService.deleteById(publisherId);
-    }
+  @PostMapping("/delete")
+  public void delete(@RequestParam Integer publisherId) {
+    publisherService.deleteById(publisherId);
+  }
 }

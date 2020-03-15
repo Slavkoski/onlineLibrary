@@ -18,25 +18,19 @@ import java.util.List;
 @Builder
 public class Author {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
 
-    private String firstName;
-    private String lastName;
-    private String biography;
-    private Date birthDate;
-    private String city;
-    private String country;
-    @JsonIgnore
-    @ManyToMany
-    private List<Book> books;
-
-//    public Author(final String firstName, final String lastName, final String biography, final Date birthDate) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.biography = biography;
-//        this.birthDate = birthDate;
-//        this.books=new ArrayList<>();
-//    }
+  private String firstName;
+  private String lastName;
+  private String biography;
+  private Date birthDate;
+  private String city;
+  private String country;
+  @Lob
+  private byte[] image;
+  @JsonIgnore
+  @ManyToMany
+  private List<Book> books;
 }

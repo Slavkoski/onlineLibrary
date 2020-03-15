@@ -14,11 +14,11 @@ import javax.persistence.*;
 @Builder
 public class Comment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private String commentOwnerName;
-    private String comment;
-    @ManyToOne
-    private Book book;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+  private String commentOwnerName;
+  private String comment;
+  @ManyToOne
+  private Book book;
 }

@@ -19,91 +19,95 @@ import java.util.List;
 
 @Service
 public class BookServiceImpl implements BookService {
-    private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
-    private final GenreRepository genreRepository;
-    private final GenreService genreService;
-    private final PublisherRepository publisherRepository;
+  private final BookRepository bookRepository;
+  private final AuthorRepository authorRepository;
+  private final GenreRepository genreRepository;
+  private final GenreService genreService;
+  private final PublisherRepository publisherRepository;
 
-    public BookServiceImpl(BookRepository bookRepository, final AuthorRepository authorRepository, final GenreRepository genreRepository, final GenreService genreService, final PublisherRepository publisherRepository) {
-        this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
-        this.genreRepository = genreRepository;
-        this.genreService = genreService;
-        this.publisherRepository = publisherRepository;
-    }
+  public BookServiceImpl(BookRepository bookRepository, final AuthorRepository authorRepository,
+      final GenreRepository genreRepository, final GenreService genreService,
+      final PublisherRepository publisherRepository) {
+    this.bookRepository = bookRepository;
+    this.authorRepository = authorRepository;
+    this.genreRepository = genreRepository;
+    this.genreService = genreService;
+    this.publisherRepository = publisherRepository;
+  }
 
-    @Override
-    public Book save(final String title, final String description, final String publishedYear, final Integer publishedId, final List<Integer> genreIds, final List<Integer> authors, final MultipartFile image, final MultipartFile pdf) {
-        List<Author> authorList = new ArrayList<>();
-        try {
-            Book book = bookRepository.save(Book.builder()
-                                                .title(title)
-                                                .description(description)
-                                                .publishedYear(publishedYear)
-                                                .author(new ArrayList<>())
-                                                .image(image.getBytes())
-                                                .pdf(pdf.getBytes())
-                                                .build());
-            authors.forEach(authorId -> authorList.add(authorRepository.getOne(authorId)));
-            authorList.forEach(author -> {
-                book.getAuthor().add(author);
-                author.getBooks().add(book);
-                authorRepository.save(author);
-            });
-            genreIds.forEach(genreId -> {
-                Genre genre = genreRepository.getOne(genreId);
-                genre.getBooks().add(book);
-                genreRepository.save(genre);
-            });
-            Publisher publisher = publisherRepository.getOne(publishedId);
-            publisher.getBooks().add(book);
-            publisherRepository.save(publisher);
-            return bookRepository.save(book);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
+  @Override
+  public Book save(final String title, final String description, final String publishedYear,
+      final Integer publishedId, final List<Integer> genreIds, final List<Integer> authors,
+      final MultipartFile image, final MultipartFile pdf) {
+    List<Author> authorList = new ArrayList<>();
+    try {
+      Book book = bookRepository.save(Book.builder()
+          .title(title)
+          .description(description)
+          .publishedYear(publishedYear)
+          .author(new ArrayList<>())
+          .image(image.getBytes())
+          .pdf(pdf.getBytes())
+          .build());
+      authors.forEach(authorId -> authorList.add(authorRepository.getOne(authorId)));
+      authorList.forEach(author -> {
+        book.getAuthor().add(author);
+        author.getBooks().add(book);
+        authorRepository.save(author);
+      });
+      genreIds.forEach(genreId -> {
+        Genre genre = genreRepository.getOne(genreId);
+        genre.getBooks().add(book);
+        genreRepository.save(genre);
+      });
+      Publisher publisher = publisherRepository.getOne(publishedId);
+      publisher.getBooks().add(book);
+      publisherRepository.save(publisher);
+      return bookRepository.save(book);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
+    return null;
+  }
 
-    @Override
-    public List<Book> getAll() {
-        return bookRepository.findAll();
-    }
+  @Override
+  public List<Book> getAll() {
+    return bookRepository.findAll();
+  }
 
-    @Override
-    public List<Author> getAuthorsForBook(final Integer bookId) {
-        return bookRepository.findById(bookId).map(Book::getAuthor).orElse(new ArrayList<>());
-    }
+  @Override
+  public List<Author> getAuthorsForBook(final Integer bookId) {
+    return bookRepository.findById(bookId).map(Book::getAuthor).orElse(new ArrayList<>());
+  }
 
-    @Override
-    public Book getById(final Integer bookId) {
-        return bookRepository.findById(bookId).orElse(null);
-    }
+  @Override
+  public Book getById(final Integer bookId) {
+    return bookRepository.findById(bookId).orElse(null);
+  }
 
-    @Override
-    public void deleteBookById(final Integer bookId) {
-        Book book = bookRepository.getOne(bookId);
-        List<Author> authorList = book.getAuthor();
-        authorList.forEach(author -> {
-            author.getBooks().remove(book);
-            authorRepository.save(author);
-        });
-        bookRepository.delete(book);
-    }
+  @Override
+  public void deleteBookById(final Integer bookId) {
+    Book book = bookRepository.getOne(bookId);
+    List<Author> authorList = book.getAuthor();
+    authorList.forEach(author -> {
+      author.getBooks().remove(book);
+      authorRepository.save(author);
+    });
+    bookRepository.delete(book);
+  }
 
-    @Override
-    public List<Genre> getGenreByBookId(final Integer bookId) {
-        return genreService.getGenreByBookId(bookId);
-    }
+  @Override
+  public List<Genre> getGenreByBookId(final Integer bookId) {
+    return genreService.getGenreByBookId(bookId);
+  }
 
-    @Override
-    public byte[] getImageByBookId(Integer bookId) {
-        return bookRepository.getOne(bookId).getImage();
-    }
+  @Override
+  public byte[] getImageByBookId(Integer bookId) {
+    return bookRepository.getOne(bookId).getImage();
+  }
 
-    @Override
-    public byte[] getPdfByBookId(Integer bookId) {
-        return bookRepository.getOne(bookId).getPdf();
-    }
+  @Override
+  public byte[] getPdfByBookId(Integer bookId) {
+    return bookRepository.getOne(bookId).getPdf();
+  }
 }

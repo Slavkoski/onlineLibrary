@@ -6,11 +6,13 @@ import com.online.library.onlinelibrary.model.Comment;
 import java.util.List;
 
 public interface CommentService {
-    List<Comment> getAll();
-    List<Comment> getAllByBook(Book book);
-    List<Comment> getAllByBookId(int bookId);
+  List<Comment> getAll();
 
-    Comment addComment(String description, String commentOwnerName, Integer bookId);
+  List<Comment> getAllByBook(Book book);
 
-    void deleteCommentById(Integer commentId);
+  List<Comment> getAllByBookId(int bookId);
+
+  Comment addComment(String description, String commentOwnerName, Integer bookId);
+
+  void deleteCommentById(Integer commentId);
 }

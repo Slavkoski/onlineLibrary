@@ -18,31 +18,31 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/comment", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class CommentController {
-    private final CommentService commentService;
+  private final CommentService commentService;
 
-    public CommentController(final CommentService commentService) {
-        this.commentService = commentService;
-    }
+  public CommentController(final CommentService commentService) {
+    this.commentService = commentService;
+  }
 
-    @GetMapping
-    public List<Comment> getAll(){
-        return commentService.getAll();
-    }
+  @GetMapping
+  public List<Comment> getAll() {
+    return commentService.getAll();
+  }
 
-    @GetMapping(value = "/book/{bookId}")
-    public List<Comment> getCommentsByBookId(@PathVariable("bookId") Integer bookId){
-        return commentService.getAllByBookId(bookId);
-    }
+  @GetMapping(value = "/book/{bookId}")
+  public List<Comment> getCommentsByBookId(@PathVariable("bookId") Integer bookId) {
+    return commentService.getAllByBookId(bookId);
+  }
 
-    @PostMapping(value = "/add")
-    public Comment addComment(@RequestParam String description,
-                              @RequestParam String commentOwnerName,
-                              @RequestParam Integer bookId){
-        return commentService.addComment(description,commentOwnerName,bookId);
-    }
+  @PostMapping(value = "/add")
+  public Comment addComment(@RequestParam String description,
+      @RequestParam String commentOwnerName,
+      @RequestParam Integer bookId) {
+    return commentService.addComment(description, commentOwnerName, bookId);
+  }
 
-    @PostMapping(value = "/delete")
-    public void deleteComment(@RequestParam Integer commentId){
-        commentService.deleteCommentById(commentId);
-    }
+  @PostMapping(value = "/delete")
+  public void deleteComment(@RequestParam Integer commentId) {
+    commentService.deleteCommentById(commentId);
+  }
 }

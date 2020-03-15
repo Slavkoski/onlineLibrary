@@ -8,19 +8,20 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface BookService {
-    Book save(String title, String description, String publishedYear, Integer publisherId, List<Integer> genreId, List<Integer> authors, MultipartFile image, MultipartFile pdf);
+  Book save(String title, String description, String publishedYear, Integer publisherId,
+      List<Integer> genreId, List<Integer> authors, MultipartFile image, MultipartFile pdf);
 
-    List<Book> getAll();
+  List<Book> getAll();
 
-    List<Author> getAuthorsForBook(Integer bookId);
+  List<Author> getAuthorsForBook(Integer bookId);
 
-    Book getById(Integer bookId);
+  Book getById(Integer bookId);
 
-    void deleteBookById(Integer bookId);
+  void deleteBookById(Integer bookId);
 
-    List<Genre> getGenreByBookId(Integer bookId);
+  List<Genre> getGenreByBookId(Integer bookId);
 
-    byte[] getImageByBookId(Integer bookId);
+  byte[] getImageByBookId(Integer bookId);
 
-    byte[] getPdfByBookId(Integer bookId);
+  byte[] getPdfByBookId(Integer bookId);
 }
