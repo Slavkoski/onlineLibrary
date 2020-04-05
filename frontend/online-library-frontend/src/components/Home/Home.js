@@ -1,8 +1,6 @@
 import React, {Component} from "react";
-import './Home.css'
 import Nav from "../Nav/Nav";
 import axios from 'axios';
-import {Link} from "react-router-dom";
 import CategoryList from "../CaregoryList/CategoryList";
 
 class Home extends Component {
@@ -16,7 +14,6 @@ class Home extends Component {
 
     async componentDidMount() {
         await axios.get("http://localhost:8080/books").then(res => {
-            // console.log(res);
             this.setState({
                 data: res.data
             })
@@ -25,83 +22,6 @@ class Home extends Component {
         })
     }
 
-    searchMedicine = () => {
-        let inputSearch = document.getElementById('search').value;
-        let url = 'http://localhost:8080/home/search/' + inputSearch;
-
-        axios.get(url).then(res => {
-            console.log(res);
-            this.setState({
-                data: res.data
-            })
-        }).catch(err => {
-
-        })
-    };
-
-    // sortAllAsc = () => {
-    //     let url = 'http://localhost:8080/home/sort/10/asc';
-    //     axios.get(url).then(res => {
-    //         console.log(res);
-    //         this.setState({
-    //             data: res.data
-    //         })
-    //     }).catch(err => {
-    //         console.log(err)
-    //     })
-    // };
-    // sortAllDesc = () => {
-    //     let url = 'http://localhost:8080/home/sort/10/desc';
-    //     axios.get(url).then(res => {
-    //         console.log(res);
-    //         this.setState({
-    //             data: res.data
-    //         })
-    //     }).catch(err => {
-    //         console.log(err)
-    //     })
-    // };
-    findAllLiquid = () => {
-        let url = 'http://localhost:8080/home/filter/10/liquid';
-        axios.get(url).then(res => {
-            console.log(res);
-            this.setState({
-                data: res.data
-
-            })
-        }).catch(err => {
-            console.log(err)
-        })
-    };
-
-    findAllSolid = () => {
-        let url = 'http://localhost:8080/home/filter/10/solid';
-        axios.get(url).then(res => {
-            console.log(res);
-            this.setState({
-                data: res.data
-            })
-        }).catch(err => {
-            console.log(err)
-        })
-    };
-
-
-    addToCart = (genericName) => {
-        debugger;
-        let username = localStorage.getItem('username');
-        const form = new FormData();
-        form.set('username', username);
-        form.set('genericName', genericName);
-        axios.post("http://localhost:8080/cart/addToCart", form).then(res => {
-            // console.log(res);
-            alert('You added medicine to your cart successfully')
-        }).catch(err => {
-            console.log(err);
-        });
-
-    };
-
     pagination = (e) => {
         debugger;
         let page = e.target.innerText;
@@ -109,19 +29,15 @@ class Home extends Component {
             this.setState({
                 data: res.data
             })
-            console.log(res);
         }).catch(err => {
             console.log(err);
         })
     };
 
     render() {
-        let najaven = localStorage.getItem('username');
-
         if (!this.state.data) {
             return (<Nav></Nav>)
         }
-
         return (
             <div>
                 <Nav></Nav>
@@ -137,18 +53,20 @@ class Home extends Component {
                                     this.state.data.map((item, index) => {
                                         return (
                                             <div key={index} className="col-lg-4 col-md-4 col-sm-4">
-                                                <div className="card m-2" style={{width: "18rem"}}>
+                                                <div className="card m-2">
+                                                    <div className={"image"}>
                                                     <img className="card-img-top"
-                                                         src={"http://localhost:8080/books/image/"+item.id} alt="" width={40} height={220}/>
+                                                         src={"http://localhost:8080/books/image/"+item.id} alt=""/>
+                                                    </div>
                                                     <div className="card-body">
-                                                        <h5 className="card-title"><a
+                                                        <h5 className="card-title"><a className={"link-no-decoration"}
                                                             href={"/book/" + item.id}> {item.title}</a>
                                                         </h5>
                                                         <span className={"card-text"}>
                                                 {
                                                     item.author.map((author, index) => {
                                                         return (
-                                                            <a href={"/author/" + author.id}>{author.firstName} {author.lastName}{index === item.author.length - 1 ? "" : ", "} </a>)
+                                                            <a className={"link-no-decoration"} href={"/author/" + author.id}>{author.firstName} {author.lastName}{index === item.author.length - 1 ? "" : ", "} </a>)
                                                     })
                                                 }
                                                 </span>

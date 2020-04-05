@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import './GenreList.css'
 import Nav from "../Nav/Nav";
 import AddGenre from "../AddGenre/AddGenre"
 import axios from 'axios';
@@ -15,7 +14,6 @@ class GenreList extends Component {
 
     async componentWillMount() {
         await axios.get("http://localhost:8080/genre").then(res => {
-            console.log(res);
             res.data.map((category,index)=>{
                 if(category.books.length>4){
                     category.books=category.books.slice(0,4);
@@ -39,7 +37,7 @@ class GenreList extends Component {
                         this.state.data != null ? (
                             this.state.data.map((item, index) => {
                                 return (
-                                    <div className={"row"}>
+                                    <div className={"row"} key={"genre_list_"+index}>
                                         <div className={"col"}>
                                             <div className={"row"}>
                                                 <div className={"col"}>
@@ -55,12 +53,14 @@ class GenreList extends Component {
                                                     item.books.map((book, index) => {
                                                         return (
 
-                                                                    <div key={index}
+                                                                    <div key={"book"+index}
                                                                          className="col-lg-2 col-md-2 col-sm-2 m-2">
                                                                         <div className="card m-2">
+                                                                            <div className={"image"}>
                                                                             <img className="card-img-top"
                                                                                  src={"http://localhost:8080/books/image/"+book.id}
                                                                                  alt=""/>
+                                                                            </div>
                                                                             <div className="card-body">
                                                                                 <h5><a
                                                                                     href={"/book/" + book.id}> {book.title}</a>

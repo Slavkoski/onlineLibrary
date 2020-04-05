@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-// import './GenreList.css'
+// import './AuthorList.css'
 import Nav from "../Nav/Nav";
 // import AddGenre from "../AddGenre/AddGenre"
 import axios from 'axios';
@@ -67,12 +67,14 @@ class AuthorList extends Component {
                                                                 <div key={index}
                                                                      className="col-lg-2 col-md-3 col-sm-6 m-2">
                                                                     <div className="card m-2">
-                                                                        <img className="card-img-top"
-                                                                             src={"http://localhost:8080/books/image/"+book.id}
-                                                                             alt=""/>
+                                                                        <div className="image">
+                                                                            <img className="card-img-top img"
+                                                                                 src={"http://localhost:8080/books/image/" + book.id}
+                                                                                 alt=""/>
+                                                                        </div>
                                                                         <div className="card-body">
                                                                             <h5><a
-                                                                                href={"/books/details/" + book.id}> {book.title}</a>
+                                                                                href={"/book/" + book.id}> {book.title}</a>
                                                                             </h5>
                                                                         </div>
                                                                     </div>
@@ -83,7 +85,7 @@ class AuthorList extends Component {
                                                         :
                                                         <div>
                                                             No books for this author
-                                                            <a href={"/books/add"} className={"btn btn-primary ml-2"}>Add
+                                                            <a href={"/addBook"} className={"btn btn-primary ml-2"}>Add
                                                                 Book</a>
                                                         </div>
                                                 }
@@ -93,7 +95,7 @@ class AuthorList extends Component {
                                                             <div className={"row"}>
                                                                 <div className={"col m-2 mt-3"}>
                                                                     <a href={"/author/" + item.id}
-                                                                       className="btn btn-primary">more ...</a>
+                                                                       className="btn btn-primary">More ...</a>
                                                                 </div>
                                                             </div>
                                                             <div className={"row"}>
@@ -112,8 +114,11 @@ class AuthorList extends Component {
                                     </div>
                                 );
                             })
-                        ) : (
-                            <p>No categories available</p>
+                        ) : (<div>
+                                <p>No authors available</p>
+                                <a href={"/addAuthor"}
+                                   className={"btn btn-primary"}>Add Book</a>
+                            </div>
                         )
                     }
                 </div>

@@ -1,7 +1,5 @@
 import React, {Component} from "react";
-// import './GenreList.css'
 import Nav from "../Nav/Nav";
-// import AddGenre from "../AddGenre/AddGenre"
 import axios from 'axios';
 
 class PublisherDetails extends Component {

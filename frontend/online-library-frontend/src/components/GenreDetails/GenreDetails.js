@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import './GenreDetails.css'
 import Nav from "../Nav/Nav";
 import axios from 'axios';
 import CategoryList from "../CaregoryList/CategoryList";
@@ -31,7 +30,6 @@ class GenreDetails extends Component {
             this.setState({
                 data: res.data
             })
-            console.log(res);
         }).catch(err => {
             console.log(err);
         })

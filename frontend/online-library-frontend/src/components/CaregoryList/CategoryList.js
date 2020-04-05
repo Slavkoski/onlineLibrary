@@ -1,8 +1,5 @@
 import React, {Component} from "react";
-import './CategoryList.css'
-import Nav from "../Nav/Nav";
 import axios from 'axios';
-import {Link} from "react-router-dom";
 
 class CategoryList extends Component {
 
@@ -15,7 +12,6 @@ class CategoryList extends Component {
 
     async componentWillMount() {
         await axios.get("http://localhost:8080/genre").then(res => {
-            console.log(res);
             this.setState({
                 data: res.data
             })
@@ -28,7 +24,11 @@ class CategoryList extends Component {
 
         return (
             <div>
-                <h3 className={"mt-2"}><a href={"/genres"} className={"link-no-decoration"}>Genre</a></h3>
+                <div className={"row category-list-item"}>
+                    <div className={"col"}>
+                <h3 className={"mt-2"}><a href={"/genres"} className={"link-no-decoration category-list-item"}>Genre</a></h3>
+                    </div>
+                </div>
             <ul className={"list-group list-no-decoration"}>
                 {
                     this.state.data != null ? (

@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
+import {
+    withRouter
+} from 'react-router-dom';
 import './Nav.css';
 
 class Nav extends Component {
 
     state = {
         menuShown: false,
-        active: 'Dashboard',
-        cart: '/cart'
+        searchTerm: ""
     };
 
 
@@ -29,6 +31,12 @@ class Nav extends Component {
         this.setState((prevState) => ({
             menuShown: !prevState.menuShown
         }));
+    }
+
+    search(event){
+        // event.preventDefault();
+        var form = new FormData(event.target);
+        this.props.history.push("/search/"+form.get("searchTerm"));
     }
 
     render() {
@@ -88,17 +96,28 @@ class Nav extends Component {
                                              className="menu_menu m-4" to={'/addBook'}>
                                         Add Book
                                     </NavLink>
+                                    <NavLink key={'navbar-add-author'}
+                                             style={{
+                                                 color: "white",
+                                                 fontSize: "initial",
+                                                 fontWeight: "bold"
+                                             }}
+                                             className="menu_menu m-4" to={'/addAuthor'}>
+                                        Add Author
+                                    </NavLink>
                                 </div>
                             </div>
                             <div className={"navbar-nav ml-auto m-2 w-30"}>
+                                <form onSubmit={this.search.bind(this)} noValidate>
                                 <div className="input-group">
-                                    <input type="text" className="form-control" id="search" placeholder="Search"/>
+                                    <input type="text" className="form-control" name={"searchTerm"} id="search" placeholder="Search"/>
                                     <div className="input-group-append">
-                                        <button className="btn btn-secondary" type="button" onClick={this.searchMedicine}>
+                                        <button type={"submit"} className="btn btn-secondary">
                                             <i className="fa fa-search"></i>
                                         </button>
                                     </div>
                                 </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -108,4 +127,4 @@ class Nav extends Component {
     }
 }
 
-export default Nav;
+export default withRouter(Nav);

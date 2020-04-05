@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import './BookDetails.css'
 import Nav from "../Nav/Nav";
 import Comment from "../Comment/Comment"
 import axios from 'axios';
@@ -47,7 +46,7 @@ class BookDetails extends Component {
                 <div className="container mt-3" style={{minWidth: "1000px"}}>
                     <div className="row">
                         <div className={"col-md-6 col-ld-6 col-sm-12"}>
-                            <img className={"thumbnail"}
+                            <img className={"img-thumbnail img-fluid"}
                                  src={"http://localhost:8080/books/image/"+this.state.id}/>
                         </div>
                         <div className={"col-md-6 col-ld-6 col-sm-12 p-4"}>
@@ -62,7 +61,7 @@ class BookDetails extends Component {
                                 <div className={"col"}>
                                     {
                                         this.state.data.author.map((author, index) => {
-                                            return (<a href={"authors/" + author.id}>
+                                            return (<a href={"/author/" + author.id}>
                                                     {author.firstName + " " + author.lastName
                                                     + (index === this.state.data.author.length - 1 ? "" : ", ")}
                                                 </a>

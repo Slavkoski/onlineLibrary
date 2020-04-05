@@ -10,6 +10,8 @@ import AuthorDetails from "./components/AuthorDetails/AuthorDetails";
 import PublisherList from "./components/PublisherList/PublisherList";
 import PublisherDetails from "./components/PublisherDetails/PublisherDetails";
 import AddBook from "./components/AddBook/AddBook";
+import AddAuthor from "./components/AddAuthor/AddAuthor";
+import SearchResult from "./components/SearchResult/SearchResult";
 class App extends Component {
 
     render() {
@@ -25,6 +27,8 @@ class App extends Component {
                     <Route path="/publishers" component={PublisherList}/>
                     <Route path="/publisher/:id" component={PublisherDetails}/>
                     <Route path="/addBook" component={AddBook}/>
+                    <Route path="/addAuthor" component={AddAuthor}/>
+                    <Route path="/search/:searchTerm" component={SearchResult}/>
                 </BrowserRouter>
             );
         return (

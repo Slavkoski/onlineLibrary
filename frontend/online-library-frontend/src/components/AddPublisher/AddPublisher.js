@@ -1,6 +1,4 @@
 import React, {Component} from "react";
-// import './GenreList.css'
-// import Nav from "../Nav/Nav";
 import axios from 'axios';
 
 class AddPublisher extends Component {
@@ -24,7 +22,7 @@ class AddPublisher extends Component {
                     <div className={"col"}>
                         <div className={"row"}>
                             <div className={"col"}>
-                                Your genre is not here? Create new one.
+                                Create new publisher
                             </div>
                         </div>
                         <div className={"row"}>
@@ -36,12 +34,15 @@ class AddPublisher extends Component {
                                                    className={"form-control mb-2"}/>
                                                    <textarea name={"description"} placeholder={"Description"} required className={"form-control"}>
                                                    </textarea>
+                                            <label htmlFor={"coverImage"}>Cover Image</label>
+                                            <input type={"file"} name={"image"} id={"coverImage"} className={"form-control"}
+                                            accept={"image/*"}/>
                                         </div>
                                     </div>
                                     <div className={"row"}>
                                         <div className={"col"}>
                                             <input type={"submit"} className={"btn btn-primary"}
-                                                   value={"Add New Genre"}/>
+                                                   value={"Add Publisher"}/>
                                         </div>
                                     </div>
                                 </form>

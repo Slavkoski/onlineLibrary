@@ -1,6 +1,4 @@
 import React, {Component} from "react";
-// import './GenreList.css'
-// import Nav from "../Nav/Nav";
 import axios from 'axios';
 
 class AddGenre extends Component {

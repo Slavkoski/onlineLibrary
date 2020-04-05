@@ -1,7 +1,5 @@
 import React, {Component} from "react";
-// import './GenreList.css'
 import Nav from "../Nav/Nav";
-// import AddGenre from "../AddGenre/AddGenre"
 import axios from 'axios';
 
 class AuthorDetails extends Component {
@@ -45,14 +43,15 @@ class AuthorDetails extends Component {
                                     <div className={"col-12"}>
                                         <div className={"row"}>
                                             <div className={"col-md-5 col-ld-6 col-sm-12"}>
-                                                <img className={"thumbnail"}
-                                                     src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"/>
+                                                <img className={"img-thumbnail img-fluid"}
+                                                     src={"http://localhost:8080/authors/image/" + this.state.id}/>
                                             </div>
                                             <div className={"col ml-5"}>
                                                 <h3>{this.state.data.firstName} {this.state.data.lastName}</h3>
                                                 {this.state.data.birthDate.substr(0, this.state.data.birthDate.indexOf("T"))}<br/>
                                                 {this.state.data.city}, {this.state.data.country}<br/>
-                                                <a href={"/addBook"} className={"btn btn-primary"}>Add Book For This Author</a>
+                                                <a href={"/addBook"} className={"btn btn-primary"}>Add Book For This
+                                                    Author</a>
                                             </div>
                                         </div>
                                         <div className={"row"}>
@@ -61,34 +60,39 @@ class AuthorDetails extends Component {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className={"row"}>
-                                        {
-                                            this.state.data.books && this.state.data.books.length > 0 ?
-                                                this.state.data.books.map((book, index) => {
-                                                    return (
-                                                        <div key={index} className="col-lg-3 col-md-3 col-sm-6 p-3">
-                                                            <div className="card" style={{width: "15rem"}}>
-                                                                <img className="card-img-top"
-                                                                     src={"http://localhost:8080/books/image/"+book.id} alt="" width={40} height={220}/>
-                                                                <div className="card-body">
-                                                                    <h5 className="card-title"><a
-                                                                        href={"/books/details/" + book.id}> {book.title}</a>
-                                                                    </h5>
-                                                                    <p className={"card-text"}>
-                                                                        {book.publishedYear}
-                                                                    </p>
+                                    <div className={"col border"}>
+                                        <div className={"row"}>
+                                            {
+                                                this.state.data.books && this.state.data.books.length > 0 ?
+                                                    this.state.data.books.map((book, index) => {
+                                                        return (
+                                                            <div key={index} className="col-lg-3 col-md-3 col-sm-6 m-2">
+                                                                <div className="card m-2">
+                                                                    <div className="image">
+                                                                        <img className="card-img-top img"
+                                                                             src={"http://localhost:8080/books/image/" + book.id}
+                                                                             alt=""/>
+                                                                    </div>
+                                                                    <div className="card-body">
+                                                                        <h5 className="card-title"><a
+                                                                            href={"/book/" + book.id}> {book.title}</a>
+                                                                        </h5>
+                                                                        <p className={"card-text"}>
+                                                                            {book.publishedYear}
+                                                                        </p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    )
-                                                })
-                                                :
-                                                <div>
-                                                    No books for this author
-                                                    <a href={"/books/add"} className={"btn btn-primary ml-2"}>Add
-                                                        Book</a>
-                                                </div>
-                                        }
+                                                        )
+                                                    })
+                                                    :
+                                                    <div>
+                                                        No books for this author
+                                                        <a href={"/addBook"} className={"btn btn-primary ml-2"}>Add
+                                                            Book</a>
+                                                    </div>
+                                            }
+                                        </div>
                                     </div>
                                 </div>
                             )

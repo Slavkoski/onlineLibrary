@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-// import './GenreList.css'
 import Nav from "../Nav/Nav";
 import AddPublisher from "../AddPublisher/AddPublisher";
 import axios from 'axios';
@@ -15,9 +14,9 @@ class PublisherList extends Component {
 
     async componentWillMount() {
         await axios.get("http://localhost:8080/publisher").then(res => {
-            res.data.map((publisher,index)=>{
-                if(publisher.books.length>4){
-                    publisher.books=publisher.books.slice(0,4);
+            res.data.map((publisher, index) => {
+                if (publisher.books.length > 4) {
+                    publisher.books = publisher.books.slice(0, 4);
                 }
             });
             this.setState({
@@ -57,8 +56,11 @@ class PublisherList extends Component {
                                                                 <div key={index}
                                                                      className="col-lg-2 col-md-2 col-sm-2 m-2">
                                                                     <div className="card m-2">
-                                                                        <img className="card-img-top"
-                                                                             src={"http://localhost:8080/books/image/"+book.id} alt=""/>
+                                                                        <div className={"image"}>
+                                                                            <img className="card-img-top"
+                                                                                 src={"http://localhost:8080/books/image/" + book.id}
+                                                                                 alt=""/>
+                                                                        </div>
                                                                         <div className="card-body">
                                                                             <h5><a
                                                                                 href={"/book/" + book.id}> {book.title}</a>
@@ -75,7 +77,7 @@ class PublisherList extends Component {
                                                         </div>
                                                 }
                                                 {
-                                                    item.books.length !==0 ?
+                                                    item.books.length !== 0 ?
                                                         <div className={"col"}>
                                                             <div className={"row"}>
                                                                 <div className={"col m-2 mt-3"}>
