@@ -4,12 +4,14 @@ import com.online.library.onlinelibrary.model.Author;
 import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Genre;
 import com.online.library.onlinelibrary.model.Publisher;
+import com.online.library.onlinelibrary.model.SearchResultModel;
 import com.online.library.onlinelibrary.repository.AuthorRepository;
 import com.online.library.onlinelibrary.repository.BookRepository;
 import com.online.library.onlinelibrary.repository.GenreRepository;
 import com.online.library.onlinelibrary.repository.PublisherRepository;
 import com.online.library.onlinelibrary.service.BookService;
 import com.online.library.onlinelibrary.service.GenreService;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,8 +39,10 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public Book save(final String title, final String description, final String publishedYear,
-      final Integer publishedId, final List<Integer> genreIds, final List<Integer> authors,
+      final Integer publishedId, List<Integer> genreIds, List<Integer> authors,
       final MultipartFile image, final MultipartFile pdf) {
+    genreIds = genreIds.stream().distinct().collect(Collectors.toList());
+    authors = authors.stream().distinct().collect(Collectors.toList());
     List<Author> authorList = new ArrayList<>();
     try {
       Book book = bookRepository.save(Book.builder()
@@ -109,5 +113,26 @@ public class BookServiceImpl implements BookService {
   @Override
   public byte[] getPdfByBookId(Integer bookId) {
     return bookRepository.getOne(bookId).getPdf();
+  }
+
+  @Override
+  public List<SearchResultModel> searchBooks(String searchTerm) {
+    return bookRepository
+        .findAllByTitleContainsOrDescriptionContainsOrPublishedYearContains(searchTerm, searchTerm,
+            searchTerm)
+        .stream()
+        .map(this::createSearchResultModel)
+        .collect(Collectors.toList());
+  }
+
+  private SearchResultModel createSearchResultModel(Book book) {
+    return SearchResultModel.builder()
+        .id(book.getId())
+        .title(book.getTitle())
+        .link("/book/" + book.getId())
+        .description(
+            book.getDescription().length() > 500 ? book.getDescription().substring(0, 495) + "..."
+                : book.getDescription())
+        .build();
   }
 }

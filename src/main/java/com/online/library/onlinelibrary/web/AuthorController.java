@@ -4,6 +4,8 @@ import com.online.library.onlinelibrary.model.Author;
 import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.repository.AuthorRepository;
 import com.online.library.onlinelibrary.service.AuthorService;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,5 +57,13 @@ public class AuthorController {
   @PostMapping(value = "/delete")
   public void deleteAuthor(@RequestParam Integer authorId) {
     authorService.deleteById(authorId);
+  }
+
+  @GetMapping(value = "/image/{authorId}")
+  public void getImage(@PathVariable Integer authorId, HttpServletResponse response)
+      throws IOException {
+    response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+    response.getOutputStream().write(authorService.getImageByAuthorId(authorId));
+    response.getOutputStream().close();
   }
 }

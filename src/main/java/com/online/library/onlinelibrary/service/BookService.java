@@ -3,6 +3,7 @@ package com.online.library.onlinelibrary.service;
 import com.online.library.onlinelibrary.model.Author;
 import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Genre;
+import com.online.library.onlinelibrary.model.SearchResultModel;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface BookService {
   byte[] getImageByBookId(Integer bookId);
 
   byte[] getPdfByBookId(Integer bookId);
+
+  List<SearchResultModel> searchBooks(String searchTerm);
 }

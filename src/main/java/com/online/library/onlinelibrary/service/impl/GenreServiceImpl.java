@@ -2,10 +2,12 @@ package com.online.library.onlinelibrary.service.impl;
 
 import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Genre;
+import com.online.library.onlinelibrary.model.SearchResultModel;
 import com.online.library.onlinelibrary.repository.BookRepository;
 import com.online.library.onlinelibrary.repository.GenreRepository;
 import com.online.library.onlinelibrary.service.BookService;
 import com.online.library.onlinelibrary.service.GenreService;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,5 +57,22 @@ public class GenreServiceImpl implements GenreService {
   public List<Genre> getGenreByBookId(final Integer bookId) {
     Book book = bookRepository.getOne(bookId);
     return genreRepository.findByBooksContains(book);
+  }
+
+  @Override
+  public List<SearchResultModel> searchGenres(String searchTerm) {
+    return genreRepository.findAllByNameContains(searchTerm)
+        .stream()
+        .map(this::createSearchResultModel)
+        .collect(Collectors.toList());
+  }
+
+  private SearchResultModel createSearchResultModel(Genre genre) {
+    return SearchResultModel.builder()
+        .id(genre.getId())
+        .title(genre.getName())
+        .link("/genre/" + genre.getId())
+        .description("")
+        .build();
   }
 }

@@ -52,13 +52,13 @@ public class BookController {
   public Book addBook(@RequestParam String title,
       @RequestParam String description,
       @RequestParam String publishedYear,
-      @RequestParam Integer[] genreId,
+      @RequestParam Integer[] genres,
       @RequestParam Integer publisherId,
       @RequestParam Integer[] authors,
       @RequestParam MultipartFile image,
       @RequestParam MultipartFile pdf
   ) {
-    return bookService.save(title, description, publishedYear, publisherId, Arrays.asList(genreId),
+    return bookService.save(title, description, publishedYear, publisherId, Arrays.asList(genres),
         Arrays.asList(authors), image, pdf);
   }
 

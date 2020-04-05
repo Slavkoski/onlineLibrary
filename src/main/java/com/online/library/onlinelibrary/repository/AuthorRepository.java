@@ -14,4 +14,6 @@ public interface AuthorRepository extends JpaRepository<Author, Integer> {
   }
 
   public List<Author> findAllByFirstName(String firstName);
+
+  public List<Author> findAllByBiographyContainsOrFirstNameContainsOrLastNameContainsOrCityContainsOrCountryContains(String biography,String firstName,String lastName,String city,String country);
 }

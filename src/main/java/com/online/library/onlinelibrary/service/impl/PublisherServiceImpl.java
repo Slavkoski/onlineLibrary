@@ -1,10 +1,12 @@
 package com.online.library.onlinelibrary.service.impl;
 
 import com.online.library.onlinelibrary.model.Publisher;
+import com.online.library.onlinelibrary.model.SearchResultModel;
 import com.online.library.onlinelibrary.repository.PublisherRepository;
 import com.online.library.onlinelibrary.service.BookService;
 import com.online.library.onlinelibrary.service.PublisherService;
 import java.io.IOException;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -54,5 +56,24 @@ public class PublisherServiceImpl implements PublisherService {
   @Override
   public void deleteById(final Integer publisherId) {
     publisherRepository.deleteById(publisherId);
+  }
+
+  @Override
+  public List<SearchResultModel> searchPublishers(String searchTerm) {
+    return publisherRepository.findAllByNameContainsOrDescriptionContains(searchTerm, searchTerm)
+        .stream()
+        .map(this::createSearchResultModel)
+        .collect(Collectors.toList());
+  }
+
+  private SearchResultModel createSearchResultModel(Publisher publisher) {
+    return SearchResultModel.builder()
+        .id(publisher.getId())
+        .title(publisher.getName())
+        .link("/publisher/" + publisher.getId())
+        .description(
+            publisher.getDescription().length() > 500 ? publisher.getDescription().substring(0, 496)
+                + "..." : publisher.getDescription())
+        .build();
   }
 }

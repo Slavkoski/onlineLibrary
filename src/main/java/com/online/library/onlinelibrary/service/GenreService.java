@@ -3,6 +3,7 @@ package com.online.library.onlinelibrary.service;
 import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Genre;
 
+import com.online.library.onlinelibrary.model.SearchResultModel;
 import java.util.List;
 
 public interface GenreService {
@@ -19,4 +20,6 @@ public interface GenreService {
   Genre getGenreById(Integer genreId);
 
   List<Genre> getGenreByBookId(Integer bookId);
+
+  List<SearchResultModel> searchGenres(String searchTerm);
 }
