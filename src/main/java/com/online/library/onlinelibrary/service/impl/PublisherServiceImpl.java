@@ -55,8 +55,14 @@ public class PublisherServiceImpl implements PublisherService {
   }
 
   @Override
-  public void deleteById(final Integer publisherId) {
-    publisherRepository.deleteById(publisherId);
+  public boolean deleteById(final Integer publisherId) {
+    try {
+      publisherRepository.deleteById(publisherId);
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return false;
   }
 
   @Override
@@ -79,19 +85,19 @@ public class PublisherServiceImpl implements PublisherService {
 
   @Override
   public Publisher save(Integer id, String name, String description, MultipartFile image) {
-    Publisher publisher=publisherRepository.getOne(id);
-    if(publisher!=null){
-      publisher.setName(name!=null?name:publisher.getName());
-      publisher.setDescription(description!=null?description:publisher.getDescription());
-      byte[] newImage=null;
-      if(image!=null && image.getSize()>0){
+    Publisher publisher = publisherRepository.getOne(id);
+    if (publisher != null) {
+      publisher.setName(name != null ? name : publisher.getName());
+      publisher.setDescription(description != null ? description : publisher.getDescription());
+      byte[] newImage = null;
+      if (image != null && image.getSize() > 0) {
         try {
-          newImage=image.getBytes();
+          newImage = image.getBytes();
         } catch (IOException e) {
           e.printStackTrace();
         }
       }
-      publisher.setImage(newImage!=null?newImage:publisher.getImage());
+      publisher.setImage(newImage != null ? newImage : publisher.getImage());
       return publisherRepository.save(publisher);
     }
     return null;

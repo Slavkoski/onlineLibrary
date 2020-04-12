@@ -18,7 +18,7 @@ public interface PublisherService {
 
   Publisher addPublisher(String name, String description, MultipartFile image) throws IOException;
 
-  void deleteById(Integer publisherId);
+  boolean deleteById(Integer publisherId);
 
   List<SearchResultModel> searchPublishers(String searchTerm);
 

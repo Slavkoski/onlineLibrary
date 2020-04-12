@@ -1,6 +1,5 @@
 package com.online.library.onlinelibrary.service.impl;
 
-import com.mysql.jdbc.StringUtils;
 import com.online.library.onlinelibrary.model.Author;
 import com.online.library.onlinelibrary.model.SearchResultModel;
 import com.online.library.onlinelibrary.repository.AuthorRepository;
@@ -61,8 +60,14 @@ public class AuthorServiceImpl implements AuthorService {
   }
 
   @Override
-  public void deleteById(final Integer authorId) {
-    authorRepository.deleteById(authorId);
+  public boolean deleteById(final Integer authorId) {
+    try {
+      authorRepository.deleteById(authorId);
+      return true;
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+    return false;
   }
 
   @Override

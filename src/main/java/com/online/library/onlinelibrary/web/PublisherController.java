@@ -63,8 +63,8 @@ public class PublisherController {
   }
 
   @PostMapping("/delete")
-  public void delete(@RequestParam Integer publisherId) {
-    publisherService.deleteById(publisherId);
+  public boolean delete(@RequestParam Integer publisherId) {
+    return publisherService.deleteById(publisherId);
   }
 
   @GetMapping("/image/{publisherId}")

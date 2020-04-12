@@ -55,8 +55,8 @@ public class AuthorController {
   }
 
   @PostMapping(value = "/delete")
-  public void deleteAuthor(@RequestParam Integer authorId) {
-    authorService.deleteById(authorId);
+  public boolean deleteAuthor(@RequestParam Integer authorId) {
+    return authorService.deleteById(authorId);
   }
 
   @GetMapping(value = "/image/{authorId}")

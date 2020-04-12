@@ -73,8 +73,8 @@ public class BookController {
   }
 
   @PostMapping(value = "/delete")
-  public void deleteBook(@RequestParam Integer bookId) {
-    bookService.deleteBookById(bookId);
+  public boolean deleteBook(@RequestParam Integer bookId) {
+    return bookService.deleteBookById(bookId);
   }
 
   @PostMapping(value = "/genre")

@@ -18,7 +18,7 @@ public interface BookService {
 
   Book getById(Integer bookId);
 
-  void deleteBookById(Integer bookId);
+  boolean deleteBookById(Integer bookId);
 
   List<Genre> getGenreByBookId(Integer bookId);
 

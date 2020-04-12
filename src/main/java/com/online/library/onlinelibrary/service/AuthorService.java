@@ -16,7 +16,7 @@ public interface AuthorService {
   Author addAuthor(String firstName, String lastName, String city, String country, String biography,
       String birthDate, MultipartFile image);
 
-  void deleteById(Integer authorId);
+  boolean deleteById(Integer authorId);
 
   byte[] getImageByAuthorId(Integer authorId);
 

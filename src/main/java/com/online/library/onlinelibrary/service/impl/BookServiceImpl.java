@@ -95,7 +95,7 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public void deleteBookById(final Integer bookId) {
+  public boolean deleteBookById(final Integer bookId) {
     Book book = bookRepository.getOne(bookId);
     List<Author> authorList = book.getAuthor();
     authorList.forEach(author -> {
@@ -103,13 +103,19 @@ public class BookServiceImpl implements BookService {
       authorRepository.save(author);
     });
     genreService.removeBookFromAllGenres(book);
-    Publisher publisher=publisherRepository.findByBooksContains(book);
-    if(publisher!=null){
+    Publisher publisher = publisherRepository.findByBooksContains(book);
+    if (publisher != null) {
       publisher.getBooks().remove(book);
       publisherRepository.save(publisher);
     }
     commentService.deleteAllCommentsByBook(book);
-    bookRepository.delete(book);
+    try {
+      bookRepository.delete(book);
+      return true;
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return false;
   }
 
   @Override
@@ -218,7 +224,7 @@ public class BookServiceImpl implements BookService {
           publisher.getBooks().add(book);
           publisherRepository.save(publisher);
         }
-      } else if (oldPublisher==null){
+      } else if (oldPublisher == null) {
         Publisher publisher = publisherRepository.getOne(publisherId);
         if (publisher != null) {
           publisher.getBooks().add(book);
