@@ -20,8 +20,10 @@ public class Publisher {
   private int id;
 
   private String name;
+  @Column(name = "description",length = 4048)
   private String description;
   @Lob
+  @Column(name = "image",length = 10000000)
   private byte[] image;
   @OneToMany
   private List<Book> books;

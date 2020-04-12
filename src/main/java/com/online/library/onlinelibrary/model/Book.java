@@ -25,10 +25,14 @@ public class Book {
 
   @ManyToMany(mappedBy = "books")
   private List<Author> author;
+  @Lob
+  @Column(name = "description",length = 4048)
   private String description;
   private String publishedYear;
   @Lob
+  @Column(name = "pdf",length = 100000000)
   private byte[] pdf;
   @Lob
+  @Column(name = "image",length = 10000000)
   private byte[] image;
 }

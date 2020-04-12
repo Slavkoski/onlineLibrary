@@ -66,4 +66,17 @@ public class AuthorController {
     response.getOutputStream().write(authorService.getImageByAuthorId(authorId));
     response.getOutputStream().close();
   }
+
+  @PostMapping(value = "/save")
+  public Author saveAuthor(
+      @RequestParam Integer authorId,
+      @RequestParam(required = false) String firstName,
+      @RequestParam(required = false) String lastName,
+      @RequestParam(required = false) String city,
+      @RequestParam(required = false) String country,
+      @RequestParam(required = false) String biography,
+      @RequestParam(required = false) String birthDate,
+      @RequestParam(required = false) MultipartFile image){
+    return authorService.saveAuthor(authorId,firstName,lastName,city,country,biography,birthDate,image);
+  }
 }

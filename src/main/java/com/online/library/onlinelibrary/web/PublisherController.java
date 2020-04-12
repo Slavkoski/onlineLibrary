@@ -1,8 +1,10 @@
 package com.online.library.onlinelibrary.web;
 
+import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Publisher;
 import com.online.library.onlinelibrary.service.PublisherService;
 import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,11 @@ public class PublisherController {
     return publisherService.getByBookId(bookId);
   }
 
+  @GetMapping("/books/{publisherId}")
+  public List<Book> getAllBooksForPublisherId(@PathVariable Integer publisherId) {
+    return publisherService.getAllBooksForPublisherId(publisherId);
+  }
+
   @PostMapping("/add")
   public Publisher add(@RequestParam String name,
       @RequestParam String description,
@@ -47,8 +54,24 @@ public class PublisherController {
     return publisherService.addPublisher(name, description, image);
   }
 
+  @PostMapping("/save")
+  public Publisher save(@RequestParam Integer id,
+      @RequestParam(required = false) String name,
+      @RequestParam(required = false) String description,
+      @RequestParam(required = false) MultipartFile image) throws IOException {
+    return publisherService.save(id,name, description, image);
+  }
+
   @PostMapping("/delete")
   public void delete(@RequestParam Integer publisherId) {
     publisherService.deleteById(publisherId);
+  }
+
+  @GetMapping("/image/{publisherId}")
+  public void getImage(@PathVariable Integer publisherId, HttpServletResponse response)
+      throws IOException {
+    response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+    response.getOutputStream().write(publisherService.getImageByPublisherId(publisherId));
+    response.getOutputStream().close();
   }
 }

@@ -51,4 +51,9 @@ public class CommentServiceImpl implements CommentService {
   public void deleteCommentById(final Integer commentId) {
     commentRepository.deleteById(commentId);
   }
+
+  @Override
+  public void deleteAllCommentsByBook(Book book) {
+    getAllByBook(book).forEach(commentRepository::delete);
+  }
 }

@@ -18,6 +18,7 @@ public class Comment {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
   private String commentOwnerName;
+  @Column(name = "comment",length = 4048)
   private String comment;
   @ManyToOne
   private Book book;

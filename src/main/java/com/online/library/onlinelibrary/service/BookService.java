@@ -27,4 +27,10 @@ public interface BookService {
   byte[] getPdfByBookId(Integer bookId);
 
   List<SearchResultModel> searchBooks(String searchTerm);
+
+  List<Book> getBooksByPageNumber(Integer pageNumber);
+
+  Integer getNumberOfPages();
+
+  Book saveBook(Integer id, String title, String description, String publishedYear, List<Integer> genres, List<Integer> authors, Integer publisherId, MultipartFile image, MultipartFile pdf);
 }

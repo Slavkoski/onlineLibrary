@@ -34,9 +34,26 @@ public class GenreController {
     return genreService.getAllBooksByGenreId(genreId);
   }
 
-  @GetMapping(value = "/{genreId}")
-  public Genre getGenre(@PathVariable("genreId") Integer genreId) {
-    return genreService.getGenreById(genreId);
+  @GetMapping(value = "/book/{bookId}")
+  public List<Genre> getGenreByBookId(@PathVariable Integer bookId){
+    return genreService.getGenreByBookId(bookId);
+  }
+
+  @GetMapping(value = "/books/{genreId}/{pageNumber}")
+  public List<Book> getAllBooksByGenreIdAndPageNumber(@PathVariable Integer genreId,
+                                                      @PathVariable Integer pageNumber) {
+    return genreService.getAllBooksByGenreIdAndPageNumber(genreId,pageNumber);
+  }
+
+  @GetMapping(value = "/books/numberOfPages/{genreId}")
+  public Integer getNumberOfPagesByGenreId(@PathVariable Integer genreId){
+    return genreService.getNumberOfPagesByGenreId(genreId);
+  }
+
+  @GetMapping(value = "/{genreId}/{pageNumber}")
+  public Genre getGenre(@PathVariable("genreId") Integer genreId,
+                        @PathVariable Integer pageNumber) {
+    return genreService.getGenreByIdAndPageNumber(genreId,pageNumber);
   }
 
   @PostMapping(value = "/add")

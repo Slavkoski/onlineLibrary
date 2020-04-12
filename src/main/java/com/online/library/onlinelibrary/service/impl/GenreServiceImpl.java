@@ -14,6 +14,8 @@ import java.util.List;
 
 @Service
 public class GenreServiceImpl implements GenreService {
+  private static final Integer PAGE_SIZE = 9;
+
   private final GenreRepository genreRepository;
   private final BookRepository bookRepository;
 
@@ -67,6 +69,37 @@ public class GenreServiceImpl implements GenreService {
         .collect(Collectors.toList());
   }
 
+  @Override
+  public List<Book> getAllBooksByGenreIdAndPageNumber(Integer genreId, Integer pageNumber) {
+    List<Book> allBooks = getAllBooksByGenreId(genreId);
+    int listSize = allBooks.size();
+    return allBooks.subList(calculateStartIndex(pageNumber, listSize),
+        calculateEndIndex(pageNumber, listSize));
+  }
+
+  @Override
+  public Integer getNumberOfPagesByGenreId(Integer genreId) {
+    return calculateNumberOfPages(getAllBooksByGenreId(genreId).size());
+  }
+
+  @Override
+  public Genre getGenreByIdAndPageNumber(Integer genreId, Integer pageNumber) {
+    Genre genre = getGenreById(genreId);
+    List<Book> allBooks = genre.getBooks();
+    int listSize = allBooks.size();
+    genre.setBooks(allBooks.subList(calculateStartIndex(pageNumber, listSize),
+        calculateEndIndex(pageNumber, listSize)));
+    return genre;
+  }
+
+  @Override
+  public void removeBookFromAllGenres(Book book) {
+    getGenreByBookId(book.getId()).forEach(genre -> {
+      genre.getBooks().remove(book);
+      genreRepository.save(genre);
+    });
+  }
+
   private SearchResultModel createSearchResultModel(Genre genre) {
     return SearchResultModel.builder()
         .id(genre.getId())
@@ -74,5 +107,19 @@ public class GenreServiceImpl implements GenreService {
         .link("/genre/" + genre.getId())
         .description("")
         .build();
+  }
+
+  private int calculateStartIndex(int pageNumber, int listSize) {
+    int startIndex = (pageNumber - 1) * PAGE_SIZE;
+    return Math.min(startIndex, listSize);
+  }
+
+  private int calculateEndIndex(int pageNumber, int listSize) {
+    int endIndex = (pageNumber) * PAGE_SIZE;
+    return Math.min(endIndex, listSize);
+  }
+
+  private int calculateNumberOfPages(int listSize) {
+    return (int) Math.ceil(((double) listSize) / PAGE_SIZE);
   }
 }

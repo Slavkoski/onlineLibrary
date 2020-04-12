@@ -16,4 +16,6 @@ public interface CommentService {
   Comment addComment(String description, String commentOwnerName, Integer bookId);
 
   void deleteCommentById(Integer commentId);
+
+  void deleteAllCommentsByBook(Book book);
 }

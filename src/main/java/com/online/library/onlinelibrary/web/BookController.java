@@ -43,9 +43,19 @@ public class BookController {
     return bookService.getAuthorsForBook(bookId);
   }
 
-  @GetMapping(value = "details/{bookId}")
+  @GetMapping(value = "/details/{bookId}")
   public Book details(@PathVariable Integer bookId) {
     return bookService.getById(bookId);
+  }
+
+  @GetMapping(value = "/page/{pageNumber}")
+  public List<Book> getBooksForPage(@PathVariable Integer pageNumber){
+    return bookService.getBooksByPageNumber(pageNumber);
+  }
+
+  @GetMapping(value = "/numberOfPages")
+  public Integer getNumberOfPages(){
+    return bookService.getNumberOfPages();
   }
 
   @PostMapping(value = "/add")
@@ -70,6 +80,21 @@ public class BookController {
   @PostMapping(value = "/genre")
   public List<Genre> getGenreForBookId(@RequestParam Integer bookId) {
     return bookService.getGenreByBookId(bookId);
+  }
+
+  @PostMapping(value = "/save")
+  public Book saveBook(
+      @RequestParam Integer id,
+      @RequestParam(required = false) String title,
+      @RequestParam(required = false) String description,
+      @RequestParam(required = false) String publishedYear,
+      @RequestParam(required = false) Integer[] genres,
+      @RequestParam(required = false) Integer publisherId,
+      @RequestParam(required = false) Integer[] authors,
+      @RequestParam(required = false) MultipartFile image,
+      @RequestParam(required = false) MultipartFile pdf){
+    return bookService.saveBook(id,title,description,publishedYear, Arrays.asList(genres),
+        Arrays.asList(authors),publisherId,image,pdf);
   }
 
   @GetMapping(value = "/image/{bookId}")

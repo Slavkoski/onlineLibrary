@@ -1,5 +1,6 @@
 package com.online.library.onlinelibrary.service;
 
+import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Publisher;
 
 import com.online.library.onlinelibrary.model.SearchResultModel;
@@ -20,4 +21,10 @@ public interface PublisherService {
   void deleteById(Integer publisherId);
 
   List<SearchResultModel> searchPublishers(String searchTerm);
+
+  byte[] getImageByPublisherId(Integer publisherId);
+
+  List<Book> getAllBooksForPublisherId(Integer publisherId);
+
+  Publisher save(Integer id, String name, String description, MultipartFile image);
 }

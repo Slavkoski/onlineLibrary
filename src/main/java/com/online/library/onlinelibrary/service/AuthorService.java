@@ -21,4 +21,6 @@ public interface AuthorService {
   byte[] getImageByAuthorId(Integer authorId);
 
   List<SearchResultModel> searchAuthors(String searchTerm);
+
+  Author saveAuthor(Integer authorId, String firstName, String lastName, String city, String country, String biography, String birthDate, MultipartFile image);
 }

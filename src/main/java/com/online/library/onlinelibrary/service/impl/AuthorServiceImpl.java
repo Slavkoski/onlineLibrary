@@ -6,6 +6,7 @@ import com.online.library.onlinelibrary.model.SearchResultModel;
 import com.online.library.onlinelibrary.repository.AuthorRepository;
 import com.online.library.onlinelibrary.service.AuthorService;
 import java.io.IOException;
+import java.util.Date;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
@@ -76,6 +77,34 @@ public class AuthorServiceImpl implements AuthorService {
             searchTerm, searchTerm, searchTerm, searchTerm, searchTerm)
         .stream()
         .map(this::createSearchResultModel).collect(Collectors.toList());
+  }
+
+  @Override
+  public Author saveAuthor(Integer authorId, String firstName, String lastName, String city,
+      String country, String biography, String birthDate, MultipartFile image) {
+    Author author = getById(authorId);
+    if (author != null) {
+      author.setFirstName(firstName != null ? firstName : author.getFirstName());
+      author.setLastName(lastName != null ? lastName : author.getLastName());
+      author.setCity(city != null ? city : author.getCity());
+      author.setCountry(country != null ? country : author.getCountry());
+      author.setBiography(biography != null ? biography : author.getBiography());
+      Date newBirthDate = null;
+      try {
+        newBirthDate = new SimpleDateFormat("yyyy-MM-dd").parse(birthDate);
+      } catch (ParseException e) {
+        e.printStackTrace();
+      }
+      author.setBirthDate(newBirthDate != null ? newBirthDate : author.getBirthDate());
+      byte[] newImage = null;
+      try {
+        newImage = image.getSize() != 0 ? image.getBytes() : null;
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      author.setImage(newImage != null ? newImage : author.getImage());
+    }
+    return authorRepository.save(author);
   }
 
   private SearchResultModel createSearchResultModel(Author author) {

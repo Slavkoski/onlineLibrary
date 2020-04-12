@@ -22,4 +22,12 @@ public interface GenreService {
   List<Genre> getGenreByBookId(Integer bookId);
 
   List<SearchResultModel> searchGenres(String searchTerm);
+
+  List<Book> getAllBooksByGenreIdAndPageNumber(Integer genreId, Integer pageNumber);
+
+  Integer getNumberOfPagesByGenreId(Integer genreId);
+
+  Genre getGenreByIdAndPageNumber(Integer genreId, Integer pageNumber);
+
+  void removeBookFromAllGenres(Book book);
 }

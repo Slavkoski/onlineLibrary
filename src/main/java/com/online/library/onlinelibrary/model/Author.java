@@ -24,11 +24,14 @@ public class Author {
 
   private String firstName;
   private String lastName;
+  @Lob
+  @Column(name = "biography",length = 4048)
   private String biography;
   private Date birthDate;
   private String city;
   private String country;
   @Lob
+  @Column(name = "image",length = 10000000)
   private byte[] image;
   @JsonIgnore
   @ManyToMany

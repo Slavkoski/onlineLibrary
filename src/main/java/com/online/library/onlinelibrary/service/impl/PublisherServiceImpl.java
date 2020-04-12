@@ -1,5 +1,6 @@
 package com.online.library.onlinelibrary.service.impl;
 
+import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Publisher;
 import com.online.library.onlinelibrary.model.SearchResultModel;
 import com.online.library.onlinelibrary.repository.PublisherRepository;
@@ -64,6 +65,36 @@ public class PublisherServiceImpl implements PublisherService {
         .stream()
         .map(this::createSearchResultModel)
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public byte[] getImageByPublisherId(Integer publisherId) {
+    return getById(publisherId).getImage();
+  }
+
+  @Override
+  public List<Book> getAllBooksForPublisherId(Integer publisherId) {
+    return getById(publisherId).getBooks();
+  }
+
+  @Override
+  public Publisher save(Integer id, String name, String description, MultipartFile image) {
+    Publisher publisher=publisherRepository.getOne(id);
+    if(publisher!=null){
+      publisher.setName(name!=null?name:publisher.getName());
+      publisher.setDescription(description!=null?description:publisher.getDescription());
+      byte[] newImage=null;
+      if(image!=null && image.getSize()>0){
+        try {
+          newImage=image.getBytes();
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+      publisher.setImage(newImage!=null?newImage:publisher.getImage());
+      return publisherRepository.save(publisher);
+    }
+    return null;
   }
 
   private SearchResultModel createSearchResultModel(Publisher publisher) {
