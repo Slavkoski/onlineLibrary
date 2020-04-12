@@ -133,6 +133,7 @@ class EditBook extends Component {
     }
 
     render() {
+        document.title="Online Library: Edit Book";
         return (
             <div>
                 <Nav></Nav>

@@ -39,7 +39,11 @@ class AuthorDetails extends Component {
     }
 
     render() {
-
+        var name="";
+        if(this.state.data){
+            name=": " +this.state.data.firstName+" "+this.state.data.lastName;
+        }
+        document.title="Online Library"+name;
         return (
             <div>
                 <Nav></Nav>

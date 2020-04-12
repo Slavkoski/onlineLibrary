@@ -38,7 +38,11 @@ class PublisherDetails extends Component {
     }
 
     render() {
-
+        var name="";
+        if(this.state.data){
+            name=": " +this.state.data.name;
+        }
+        document.title="Online Library"+name;
         return (
             <div>
                 <Nav></Nav>

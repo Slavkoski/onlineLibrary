@@ -30,6 +30,7 @@ class EditAuthor extends Component {
     }
 
     render() {
+        document.title="Online Library: Edit Author";
         return (
             <div>
                 <Nav></Nav>

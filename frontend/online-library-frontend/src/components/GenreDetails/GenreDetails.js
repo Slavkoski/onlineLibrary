@@ -41,6 +41,12 @@ class GenreDetails extends Component {
 
     render() {
 
+        var name="";
+        if(this.state.data){
+            name=": " +this.state.data.name;
+        }
+        document.title="Online Library"+name;
+
         if (!this.state.data) {
             return (<Nav></Nav>)
         }
@@ -51,7 +57,7 @@ class GenreDetails extends Component {
 
                 <div className="container mt-3" style={{minWidth: "1000px"}}>
                     <div className="row">
-                        <div className={"col-md-2 col-ld-3 col-sm-12 border card"}>
+                        <div className={"col-md-2 col-ld-3 col-sm-12 border transparent-bg rounded"}>
                             <CategoryList activeId={this.state.id}></CategoryList>
                         </div>
                         <div className={"col transparent-bg ml-3 border rounded"}>

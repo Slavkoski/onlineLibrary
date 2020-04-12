@@ -39,6 +39,7 @@ class Home extends Component {
     };
 
     render() {
+        document.title="Online Library: Home";
         if (!this.state.data) {
             return (<Nav></Nav>)
         }

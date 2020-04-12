@@ -37,7 +37,7 @@ class CategoryList extends Component {
                             this.state.data.map((item, index) => {
                                 return (
                                     this.state.activeId == item.id ?
-                                        <a className={"link-no-decoration category-item-selected rounded category-list-item"}
+                                        <a className={"link-no-decoration category-item-selected mt-1 mb-1 rounded category-list-item"}
                                            href={"/genre/" + item.id}>
                                             <li key={"index" + index}
                                                 className={"p-2 ml-3"}>{item.name}

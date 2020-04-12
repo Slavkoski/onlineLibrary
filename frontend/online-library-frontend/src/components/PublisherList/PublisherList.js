@@ -28,7 +28,7 @@ class PublisherList extends Component {
     }
 
     render() {
-
+        document.title="Online Library: Publishers";
         return (
             <div>
                 <Nav></Nav>

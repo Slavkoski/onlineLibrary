@@ -72,7 +72,7 @@ class AddBook extends Component {
     }
 
     render() {
-
+        document.title="Online Library: Add Book";
         return (
             <div>
                 <Nav></Nav>

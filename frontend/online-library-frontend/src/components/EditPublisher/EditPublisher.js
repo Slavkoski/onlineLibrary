@@ -30,6 +30,7 @@ class EditPublisher extends Component {
     }
 
     render() {
+        document.title="Online Library: Edit Publisher";
         return (
             <div>
                 <Nav></Nav>

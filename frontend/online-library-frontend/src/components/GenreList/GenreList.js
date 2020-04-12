@@ -28,7 +28,7 @@ class GenreList extends Component {
     }
 
     render() {
-
+        document.title="Online Library: Genres";
         return (
             <div>
                 <Nav></Nav>

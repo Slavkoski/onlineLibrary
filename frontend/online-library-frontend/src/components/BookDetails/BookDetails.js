@@ -56,7 +56,11 @@ class BookDetails extends Component {
     }
 
     render() {
-
+        var name="";
+        if(this.state.data){
+            name=": " +this.state.data.title;
+        }
+        document.title="Online Library"+name;
         if (!this.state.data) {
             return (<Nav></Nav>)
         }

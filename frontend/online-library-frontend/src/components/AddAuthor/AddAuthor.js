@@ -20,6 +20,7 @@ class AddAuthor extends Component {
 
 
     render() {
+        document.title="Online Library: Add Author";
         return (
             <div>
                 <Nav></Nav>

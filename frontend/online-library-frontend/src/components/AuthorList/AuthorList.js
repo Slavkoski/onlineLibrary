@@ -39,9 +39,10 @@ class AuthorList extends Component {
     }
 
     render() {
-
+        document.title="Online Library: Authors";
         return (
             <div>
+
                 <Nav></Nav>
                 <div className={"container mb-2"}>
                     {

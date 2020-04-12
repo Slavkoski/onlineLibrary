@@ -23,7 +23,7 @@ class SearchResult extends Component {
     }
 
     render() {
-
+        document.title="Online Library: \""+this.state.searchTerm+"\"";
         return (
             <div>
                 <Nav></Nav>
