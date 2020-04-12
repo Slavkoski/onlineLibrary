@@ -26,11 +26,14 @@ class PublisherDetails extends Component {
     delete() {
         if (window.confirm("Are you sure that you want to delete?")) {
             console.log(this.state.id);
-            var form=new FormData();
-            form.set("publisherId",this.state.id);
-            axios.post("http://localhost:8080/publisher/delete",form)
-                .then(
-                    this.props.history.push("/publishers")
+            var form = new FormData();
+            form.set("publisherId", this.state.id);
+            axios.post("http://localhost:8080/publisher/delete", form)
+                .then(res => {
+                        if (res.data) {
+                            this.props.history.push("/publishers")
+                        }
+                    }
                 ).catch(er => {
                 console.log("cannot delete");
             })
@@ -38,11 +41,11 @@ class PublisherDetails extends Component {
     }
 
     render() {
-        var name="";
-        if(this.state.data){
-            name=": " +this.state.data.name;
+        var name = "";
+        if (this.state.data) {
+            name = ": " + this.state.data.name;
         }
-        document.title="Online Library"+name;
+        document.title = "Online Library" + name;
         return (
             <div>
                 <Nav></Nav>
@@ -65,7 +68,8 @@ class PublisherDetails extends Component {
                                                 <br/>
                                                 <a href={"/editPublisher/" + this.state.data.id}
                                                    className={"btn btn-primary mt-2"}>Edit</a>
-                                                <button className="btn btn-danger" onClick={this.delete.bind(this)}>Delete
+                                                <br/>
+                                                <button className="btn btn-danger mt-2" onClick={this.delete.bind(this)}>Delete
                                                 </button>
                                             </div>
                                         </div>

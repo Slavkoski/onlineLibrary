@@ -51,8 +51,8 @@ class AuthorList extends Component {
                                 return (
                                     <div className={"row bg-light mt-2 rounded"}>
                                         <div className={"col"}>
-                                            <div className={"row"}>
-                                                <div className={"col"}>
+                                            <div className={"row card-header"}>
+                                                <div className={"col text-center"}>
                                                     <h4 className={"mt-1 mb-0"}>
                                                     <a className={"link-no-decoration"}
                                                        href={"/author/" + item.id}>

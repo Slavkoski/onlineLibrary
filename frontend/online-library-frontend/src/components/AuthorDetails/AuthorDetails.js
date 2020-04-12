@@ -24,14 +24,17 @@ class AuthorDetails extends Component {
         })
     }
 
-    delete(){
+    delete() {
         if (window.confirm("Are you sure that you want to delete?")) {
             console.log(this.state.id);
-            var form=new FormData();
-            form.set("authorId",this.state.id);
-            axios.post("http://localhost:8080/authors/delete",form)
-                .then(
-                    this.props.history.push("/authors")
+            var form = new FormData();
+            form.set("authorId", this.state.id);
+            axios.post("http://localhost:8080/authors/delete", form)
+                .then(res => {
+                        if (res.data) {
+                            this.props.history.push("/authors")
+                        }
+                    }
                 ).catch(er => {
                 console.log("cannot delete");
             })
@@ -39,11 +42,11 @@ class AuthorDetails extends Component {
     }
 
     render() {
-        var name="";
-        if(this.state.data){
-            name=": " +this.state.data.firstName+" "+this.state.data.lastName;
+        var name = "";
+        if (this.state.data) {
+            name = ": " + this.state.data.firstName + " " + this.state.data.lastName;
         }
-        document.title="Online Library"+name;
+        document.title = "Online Library" + name;
         return (
             <div>
                 <Nav></Nav>
@@ -64,9 +67,11 @@ class AuthorDetails extends Component {
                                                 <a href={"/addBook"} className={"btn btn-primary"}>Add Book For This
                                                     Author</a>
                                                 <br/>
-                                                <a href={"/editAuthor/"+this.state.id} className={"btn btn-primary mt-2 "}>Edit</a>
+                                                <a href={"/editAuthor/" + this.state.id}
+                                                   className={"btn btn-primary mt-2 "}>Edit</a>
                                                 <br/>
-                                                <button className="btn btn-danger" onClick={this.delete.bind(this)}>Delete</button>
+                                                <button className="btn btn-danger mt-2" onClick={this.delete.bind(this)}>Delete
+                                                </button>
                                             </div>
                                         </div>
                                         <div className={"row card mt-2 p-2"}>

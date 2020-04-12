@@ -47,8 +47,11 @@ class BookDetails extends Component {
             var form=new FormData();
             form.set("bookId",this.state.id);
             axios.post("http://localhost:8080/books/delete",form)
-                .then(
-                    this.props.history.push("/books")
+                .then(res=> {
+                        if(res.data){
+                            this.props.history.push("/books");
+                        }
+                    }
                 ).catch(er => {
                 console.log("cannot delete");
             })
