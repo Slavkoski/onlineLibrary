@@ -6,7 +6,8 @@ class CategoryList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: null
+            data: null,
+            activeId: props.activeId
         }
     }
 
@@ -24,28 +25,39 @@ class CategoryList extends Component {
 
         return (
             <div>
-                <div className={"row category-list-item"}>
+                <div className={"row category-list-item card"}>
                     <div className={"col"}>
-                <h3 className={"mt-2"}><a href={"/genres"} className={"link-no-decoration category-list-item"}>Genre</a></h3>
+                        <h3 className={"mt-2"}><a href={"/genres"}
+                                                  className={"link-no-decoration category-list-item"}>Genre</a></h3>
                     </div>
                 </div>
-            <ul className={"list-group list-no-decoration"}>
-                {
-                    this.state.data != null ? (
-                        this.state.data.map((item, index) => {
-                            return (
-                                <a className={"link-no-decoration"}
-                                   href={"/genre/" + item.id}>
-                                <li key={"index" + index} className={"p-2 ml-3 border-top border-bottom category-list-item"}>{item.name}
-                                </li>
-                                </a>
-                            );
-                        })
-                    ) : (
-                        <p>No categories available</p>
-                    )
-                }
-            </ul>
+                <ul className={"list-group list-no-decoration"}>
+                    {
+                        this.state.data != null ? (
+                            this.state.data.map((item, index) => {
+                                return (
+                                    this.state.activeId == item.id ?
+                                        <a className={"link-no-decoration category-item-selected rounded category-list-item"}
+                                           href={"/genre/" + item.id}>
+                                            <li key={"index" + index}
+                                                className={"p-2 ml-3"}>{item.name}
+                                            </li>
+                                        </a>
+                                        :
+                                        <a className={"link-no-decoration card category-list-item mt-1 mb-1 rounded"}
+                                           href={"/genre/" + item.id}>
+                                            <li key={"index" + index}
+                                                className={"p-2 ml-3"}>{item.name}
+                                            </li>
+                                        </a>
+
+                                );
+                            })
+                        ) : (
+                            <p>No categories available</p>
+                        )
+                    }
+                </ul>
             </div>
         )
     }

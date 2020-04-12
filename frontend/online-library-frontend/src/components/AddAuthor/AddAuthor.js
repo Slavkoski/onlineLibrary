@@ -14,7 +14,7 @@ class AddAuthor extends Component {
         event.preventDefault();
         axios.post("http://localhost:8080/authors/add", new FormData(event.target), {})
             .then(res => {
-                this.props.history.push("author/"+res.data.id);
+                this.props.history.push("author/" + res.data.id);
             });
     }
 
@@ -24,11 +24,13 @@ class AddAuthor extends Component {
             <div>
                 <Nav></Nav>
                 <div className={"container mt-2 mb-2 border rounded bg-light"}>
-                    <div className={"row mt-2 mb-3"}>
+                    <div className={"row mb-3"}>
                         <div className={"col"}>
-                            <div className={"row"}>
-                                <div className={"col"}>
-                                    Add Author
+                            <div className={"row mb-2"}>
+                                <div className={"col card-header"}>
+                                    <h5>
+                                        Add Author
+                                    </h5>
                                 </div>
                             </div>
                             <div className={"row"}>

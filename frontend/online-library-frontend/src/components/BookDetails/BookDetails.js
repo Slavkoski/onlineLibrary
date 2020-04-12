@@ -10,7 +10,8 @@ class BookDetails extends Component {
         this.state = {
             data: null,
             id: props.match.params.id,
-            publisher: []
+            publisher: [],
+            genres: []
         }
     }
 
@@ -31,6 +32,27 @@ class BookDetails extends Component {
         }).catch((err) => {
             console.log("Error: ", err);
         });
+        await axios.get("http://localhost:8080/genre/book/" + this.state.id).then(res => {
+            this.setState({
+                genres: res.data
+            })
+        }).catch((err) => {
+            console.log("Error: ", err);
+        });
+    }
+
+    delete(){
+        if (window.confirm("Are you sure that you want to delete?")) {
+            console.log(this.state.id);
+            var form=new FormData();
+            form.set("bookId",this.state.id);
+            axios.post("http://localhost:8080/books/delete",form)
+                .then(
+                    this.props.history.push("/books")
+                ).catch(er => {
+                console.log("cannot delete");
+            })
+        }
     }
 
     render() {
@@ -43,11 +65,11 @@ class BookDetails extends Component {
             <div>
                 <Nav></Nav>
 
-                <div className="container mt-3" style={{minWidth: "1000px"}}>
+                <div className="container bg-light rounded mt-3">
                     <div className="row">
-                        <div className={"col-md-6 col-ld-6 col-sm-12"}>
+                        <div className="col-md-6 col-ld-6 col-sm-12 mt-2 text-center">
                             <img className={"img-thumbnail img-fluid"}
-                                 src={"http://localhost:8080/books/image/"+this.state.id}/>
+                                 src={"http://localhost:8080/books/image/" + this.state.id}/>
                         </div>
                         <div className={"col-md-6 col-ld-6 col-sm-12 p-4"}>
                             <div className={"row"}>
@@ -80,10 +102,34 @@ class BookDetails extends Component {
                                     {this.state.publisher.name}
                                 </div>
                             </div>
+                            <div className={"row"}>
+                                <div className={"col"}>
+                                    {
+                                        this.state.genres.map(genre => {
+                                            return <a href={"/genre/"+genre.id}>
+                                                <span className="border rounded p-2 m-1 small-text"
+                                                      id={"span_author_" + this.state.id}>{genre.name}
+                                                </span>
+                                            </a>
+                                        })
+                                    }
+                                </div>
+                            </div>
                             <div className={"row mt-3"}>
                                 <div className={"col"}>
-                                    <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50" target="_blank"
-                                       href={"http://localhost:8080/books/pdf/"+this.state.id}>Download PDF</a>
+                                    <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
+                                       target="_blank"
+                                       href={"http://localhost:8080/books/pdf/" + this.state.id}>Download PDF</a>
+                                </div>
+                            </div>
+                            <div className={"row mt-3"}>
+                                <div className={"col"}>
+                                    <a href={"/editBook/" + this.state.id} className={"btn btn-primary"}>Edit</a>
+                                </div>
+                            </div>
+                            <div className={"row mt-3"}>
+                                <div className={"col"}>
+                                    <button className="btn btn-danger" onClick={this.delete.bind(this)}>Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -96,7 +142,6 @@ class BookDetails extends Component {
                     <Comment bookId={this.state.data.id}></Comment>
                 </div>
             </div>
-
         )
     }
 

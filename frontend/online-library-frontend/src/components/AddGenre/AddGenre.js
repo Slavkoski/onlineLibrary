@@ -17,12 +17,12 @@ class AddGenre extends Component {
     render() {
 
         return (
-            <div className={"container mt-2 mb-2"}>
-                <div className={"row"}>
+            <div className="mt-2 mb-2">
+                <div className={"row bg-light rounded border pb-2"}>
                     <div className={"col"}>
                         <div className={"row"}>
                             <div className={"col"}>
-                                Your genre is not here? Create new one.
+                                <h6> Your genre is not here? Create new one.</h6>
                             </div>
                         </div>
                         <div className={"row"}>

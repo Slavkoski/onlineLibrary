@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Nav from "../Nav/Nav";
 import axios from 'axios';
+import BookList from "../BookList/BookList";
 
 class AuthorDetails extends Component {
 
@@ -18,17 +19,23 @@ class AuthorDetails extends Component {
                 data: res.data
             });
             return res.data;
-        }).then(data => {
-            axios.get("http://localhost:8080/authors/books/" + this.state.id).then(res => {
-                data.books = res.data;
-                this.setState({
-                    data: data
-                })
-            })
+        }).catch((err) => {
+            console.log("Error: ", err);
         })
-            .catch((err) => {
-                console.log("Error: ", err);
+    }
+
+    delete(){
+        if (window.confirm("Are you sure that you want to delete?")) {
+            console.log(this.state.id);
+            var form=new FormData();
+            form.set("authorId",this.state.id);
+            axios.post("http://localhost:8080/authors/delete",form)
+                .then(
+                    this.props.history.push("/authors")
+                ).catch(er => {
+                console.log("cannot delete");
             })
+        }
     }
 
     render() {
@@ -36,12 +43,12 @@ class AuthorDetails extends Component {
         return (
             <div>
                 <Nav></Nav>
-                <div className={"container"}>
+                <div className={"container mt-2"}>
                     {
                         this.state.data != null ? (
                                 <div className={"row"}>
                                     <div className={"col-12"}>
-                                        <div className={"row"}>
+                                        <div className={"row bg-light rounded pt-2 pb-2"}>
                                             <div className={"col-md-5 col-ld-6 col-sm-12"}>
                                                 <img className={"img-thumbnail img-fluid"}
                                                      src={"http://localhost:8080/authors/image/" + this.state.id}/>
@@ -52,47 +59,20 @@ class AuthorDetails extends Component {
                                                 {this.state.data.city}, {this.state.data.country}<br/>
                                                 <a href={"/addBook"} className={"btn btn-primary"}>Add Book For This
                                                     Author</a>
+                                                <br/>
+                                                <a href={"/editAuthor/"+this.state.id} className={"btn btn-primary mt-2 "}>Edit</a>
+                                                <br/>
+                                                <button className="btn btn-danger" onClick={this.delete.bind(this)}>Delete</button>
                                             </div>
                                         </div>
-                                        <div className={"row"}>
+                                        <div className={"row card mt-2 p-2"}>
                                             <div className={"col"}>
                                                 {this.state.data.biography}
                                             </div>
                                         </div>
                                     </div>
-                                    <div className={"col border"}>
-                                        <div className={"row"}>
-                                            {
-                                                this.state.data.books && this.state.data.books.length > 0 ?
-                                                    this.state.data.books.map((book, index) => {
-                                                        return (
-                                                            <div key={index} className="col-lg-3 col-md-3 col-sm-6 m-2">
-                                                                <div className="card m-2">
-                                                                    <div className="image">
-                                                                        <img className="card-img-top img"
-                                                                             src={"http://localhost:8080/books/image/" + book.id}
-                                                                             alt=""/>
-                                                                    </div>
-                                                                    <div className="card-body">
-                                                                        <h5 className="card-title"><a
-                                                                            href={"/book/" + book.id}> {book.title}</a>
-                                                                        </h5>
-                                                                        <p className={"card-text"}>
-                                                                            {book.publishedYear}
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    })
-                                                    :
-                                                    <div>
-                                                        No books for this author
-                                                        <a href={"/addBook"} className={"btn btn-primary ml-2"}>Add
-                                                            Book</a>
-                                                    </div>
-                                            }
-                                        </div>
+                                    <div className="col transparent-bg rounded mt-2">
+                                        <BookList path={"http://localhost:8080/authors/books/" + this.state.id}></BookList>
                                     </div>
                                 </div>
                             )

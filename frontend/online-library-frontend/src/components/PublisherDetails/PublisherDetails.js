@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Nav from "../Nav/Nav";
+import BookList from "../BookList/BookList";
 import axios from 'axios';
 
 class PublisherDetails extends Component {
@@ -22,58 +23,52 @@ class PublisherDetails extends Component {
         })
     }
 
+    delete() {
+        if (window.confirm("Are you sure that you want to delete?")) {
+            console.log(this.state.id);
+            var form=new FormData();
+            form.set("publisherId",this.state.id);
+            axios.post("http://localhost:8080/publisher/delete",form)
+                .then(
+                    this.props.history.push("/publishers")
+                ).catch(er => {
+                console.log("cannot delete");
+            })
+        }
+    }
+
     render() {
 
         return (
             <div>
                 <Nav></Nav>
-                <div className={"container"}>
+                <div className={"container mt-2"}>
                     {
                         this.state.data != null ? (
                                 <div className={"row"}>
                                     <div className={"col-12"}>
-                                        <div className={"row"}>
+                                        <div className={"row bg-light rounded pt-2 pb-2"}>
                                             <div className={"col-md-5 col-ld-6 col-sm-12"}>
-                                                <img className={"thumbnail"}
-                                                     src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"/>
+                                                <img className={"img-thumbnail img-fluid"}
+                                                     src={"http://localhost:8080/publisher/image/" + this.state.id}/>
                                             </div>
                                             <div className={"col ml-5"}>
                                                 <h3>{this.state.data.name}</h3>
                                                 {this.state.data.description}
                                                 <br/>
-                                                <a href={"/addBook"} className={"btn btn-primary"}>Add Book For This Publisher</a>
+                                                <a href={"/addBook"} className={"btn btn-primary"}>Add Book For This
+                                                    Publisher</a>
+                                                <br/>
+                                                <a href={"/editPublisher/" + this.state.data.id}
+                                                   className={"btn btn-primary mt-2"}>Edit</a>
+                                                <button className="btn btn-danger" onClick={this.delete.bind(this)}>Delete
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className={"row"}>
-                                        {
-                                            this.state.data.books && this.state.data.books.length > 0 ?
-                                                this.state.data.books.map((book, index) => {
-                                                    return (
-                                                        <div key={index} className="col-lg-3 col-md-3 col-sm-6 p-3">
-                                                            <div className="card" style={{width: "15rem"}}>
-                                                                <img className="card-img-top"
-                                                                     src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                                                                     alt="" width={40} height={220}/>
-                                                                <div className="card-body">
-                                                                    <h5 className="card-title"><a
-                                                                        href={"/books/details/" + book.id}> {book.title}</a>
-                                                                    </h5>
-                                                                    <p className={"card-text"}>
-                                                                        {book.publishedYear}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })
-                                                :
-                                                <div>
-                                                    No books from this publisher
-                                                    <a href={"/books/add"} className={"btn btn-primary ml-2"}>Add
-                                                        Book</a>
-                                                </div>
-                                        }
+                                    <div className={"col transparent-bg rounded mt-2"}>
+                                        <BookList
+                                            path={"http://localhost:8080/publisher/books/" + this.state.id}></BookList>
                                     </div>
                                 </div>
                             )

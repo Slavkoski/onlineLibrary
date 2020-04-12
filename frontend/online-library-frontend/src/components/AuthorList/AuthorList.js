@@ -43,22 +43,24 @@ class AuthorList extends Component {
         return (
             <div>
                 <Nav></Nav>
-                <div className={"container"}>
+                <div className={"container mb-2"}>
                     {
                         this.state.data != null ? (
                             this.state.data.map((item, index) => {
                                 return (
-                                    <div className={"row"}>
+                                    <div className={"row bg-light mt-2 rounded"}>
                                         <div className={"col"}>
                                             <div className={"row"}>
                                                 <div className={"col"}>
+                                                    <h4 className={"mt-1 mb-0"}>
                                                     <a className={"link-no-decoration"}
                                                        href={"/author/" + item.id}>
                                                         {item.firstName} {item.lastName}
                                                     </a>
+                                                    </h4>
                                                 </div>
                                             </div>
-                                            <div className={"row border"}>
+                                            <div className={"row border m-2"}>
                                                 {
                                                     item.books && item.books.length > 0 ?
                                                         item.books.map((book, index) => {
@@ -73,9 +75,9 @@ class AuthorList extends Component {
                                                                                  alt=""/>
                                                                         </div>
                                                                         <div className="card-body">
-                                                                            <h5><a
+                                                                            <h6><a
                                                                                 href={"/book/" + book.id}> {book.title}</a>
-                                                                            </h5>
+                                                                            </h6>
                                                                         </div>
                                                                     </div>
                                                                 </div>

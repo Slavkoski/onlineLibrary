@@ -2,20 +2,24 @@ import React, {Component} from "react";
 import Nav from "../Nav/Nav";
 import axios from 'axios';
 import CategoryList from "../CaregoryList/CategoryList";
+import PageLine from "../PageLine/PageLine";
 
 class Home extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: null
+            data: null,
+            pageNumber: props.match.params.pageNumber
         }
     }
 
     async componentDidMount() {
-        await axios.get("http://localhost:8080/books").then(res => {
+        var pageNum= this.state.pageNumber ? this.state.pageNumber : 1;
+        await axios.get("http://localhost:8080/books/page/"+pageNum).then(res => {
             this.setState({
-                data: res.data
+                data: res.data,
+                pageNumber: pageNum
             })
         }).catch((err) => {
             console.log("Error: ", err);
@@ -44,20 +48,18 @@ class Home extends Component {
 
                 <div className="container mt-3" style={{minWidth: "1000px"}}>
                     <div className="row">
-                        <div className={"col-md-2 col-ld-3 col-sm-12 border"}>
+                        <div className={"col-md-2 col-ld-3 col-sm-12 border transparent-bg rounded"}>
                             <CategoryList></CategoryList>
                         </div>
-                        <div className={"col-md-10 col-ld-9 col-sm-12"}>
-                            <div className={"row"}>
+                        <div className="col-md-10 col-ld-9 col-sm-12">
+                            <div className={"row transparent-bg ml-2 border rounded"}>
                                 {
                                     this.state.data.map((item, index) => {
                                         return (
-                                            <div key={index} className="col-lg-4 col-md-4 col-sm-4">
+                                            <div key={index} className="col-lg-4 col-md-6 col-sm-6 col-flex">
                                                 <div className="card m-2">
-                                                    <div className={"image"}>
-                                                    <img className="card-img-top"
+                                                    <img className="img-home"
                                                          src={"http://localhost:8080/books/image/"+item.id} alt=""/>
-                                                    </div>
                                                     <div className="card-body">
                                                         <h5 className="card-title"><a className={"link-no-decoration"}
                                                             href={"/book/" + item.id}> {item.title}</a>
@@ -87,33 +89,7 @@ class Home extends Component {
                         </div>
 
                     </div>
-                    <div className="text-center">
-                        <nav aria-label="Page navigation example">
-                            <ul className="pagination">
-
-                                <li className="page-item"><a className="page-link" style={{color: "#007bff"}}
-                                                             onClick={(e) => this.pagination(e)}>1</a></li>
-                                <li className="page-item"><a className="page-link"
-                                                             onClick={(e) => this.pagination(e)}>2</a></li>
-                                <li className="page-item"><a className="page-link"
-                                                             onClick={(e) => this.pagination(e)}>3</a></li>
-                                <li className="page-item"><a className="page-link"
-                                                             onClick={(e) => this.pagination(e)}>4</a></li>
-                                <li className="page-item"><a className="page-link"
-                                                             onClick={(e) => this.pagination(e)}>5</a></li>
-                                <li className="page-item"><a className="page-link"
-                                                             onClick={(e) => this.pagination(e)}>6</a></li>
-                                <li className="page-item"><a className="page-link"
-                                                             onClick={(e) => this.pagination(e)}>7</a></li>
-                                <li className="page-item"><a className="page-link"
-                                                             onClick={(e) => this.pagination(e)}>8</a></li>
-                                <li className="page-item"><a className="page-link"
-                                                             onClick={(e) => this.pagination(e)}>9</a></li>
-                                <li className="page-item"><a className="page-link"
-                                                             onClick={(e) => this.pagination(e)}>10</a></li>
-                            </ul>
-                        </nav>
-                    </div>
+                    <PageLine path={"http://localhost:3000/booksPage/"} numberOfPagesPath={"http://localhost:8080/books/numberOfPages"} currentPage={this.state.pageNumber}></PageLine>
                 </div>
 
             </div>

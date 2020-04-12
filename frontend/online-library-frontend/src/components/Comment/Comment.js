@@ -14,7 +14,6 @@ class Comment extends Component {
 
     async componentDidMount() {
         await axios.get("http://localhost:8080/comment/book/" + this.state.id).then(res => {
-            // debugger;
             this.setState({
                 data: res.data
             })

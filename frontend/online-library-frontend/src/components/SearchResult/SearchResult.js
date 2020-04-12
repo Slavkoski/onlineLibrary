@@ -28,19 +28,25 @@ class SearchResult extends Component {
             <div>
                 <Nav></Nav>
                 <div className={"container"}>
-                    <h2>Search results:</h2>
+                    <div className={"row"}>
+                        <div className={"col"}>
+                            <div className={"card m-2"}>
+                                <h2 className={"card-header"}>Search results for: "{this.state.searchTerm}"</h2>
+                            </div>
+                        </div>
+                    </div>
                     {
                         this.state.data != null && this.state.data.length > 0 ? (
                             this.state.data.map((item, index) => {
                                 return (
                                     <a className={"link-no-decoration"}
                                        href={item.link}>
-                                        <div className={"row border rounded m-2 category-list-item"}>
+                                        <div className={"row border rounded m-2 category-list-item card"}>
                                             <div className={"col"}>
-                                                <h5>
+                                                <h5 className={"mt-1"}>
                                                     {item.title}
                                                 </h5>
-                                                <p>{item.description}</p>
+                                                <p className={"card-text"}>{item.description}</p>
                                             </div>
                                         </div>
                                     </a>

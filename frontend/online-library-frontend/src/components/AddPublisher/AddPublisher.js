@@ -18,11 +18,13 @@ class AddPublisher extends Component {
 
         return (
             <div className={"container mt-2 mb-2 border rounded bg-light"}>
-                <div className={"row mt-2 mb-3"}>
+                <div className={"row mb-3"}>
                     <div className={"col"}>
-                        <div className={"row"}>
-                            <div className={"col"}>
-                                Create new publisher
+                        <div className={"row mb-2"}>
+                            <div className={"col card-header"}>
+                                <h5>
+                                    Create new publisher
+                                </h5>
                             </div>
                         </div>
                         <div className={"row"}>
@@ -32,11 +34,12 @@ class AddPublisher extends Component {
                                         <div className={"col-md-6 col-ld-6 col-sm-12"}>
                                             <input type={"text"} name={"name"} placeholder={"Name"} required
                                                    className={"form-control mb-2"}/>
-                                                   <textarea name={"description"} placeholder={"Description"} required className={"form-control"}>
+                                            <textarea name={"description"} placeholder={"Description"} required
+                                                      className={"form-control"}>
                                                    </textarea>
                                             <label htmlFor={"coverImage"}>Cover Image</label>
-                                            <input type={"file"} name={"image"} id={"coverImage"} className={"form-control"}
-                                            accept={"image/*"}/>
+                                            <input type={"file"} name={"image"} id={"coverImage"}
+                                                   className={"form-control"} required accept={"image/*"}/>
                                         </div>
                                     </div>
                                     <div className={"row"}>

@@ -1,56 +1,106 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
-.image{
-  position:relative;
-  overflow:hidden;
-  padding-bottom:100%;
-}
-.image img{
-  position:absolute;
-  min-height: 100%; min-width: 100%
+.image {
+    position: relative;
+    overflow: hidden;
+    padding-bottom: 100%;
 }
 
-.bg-black{
-  background: #282c34;
-}
-.link-no-decoration{
-  text-decoration: none !important;
-  color: black;
-}
-.link-no-decoration:hover{
-  text-decoration: none !important;
-  color: black;
-}
-.category-list-item:hover{
-  background-color: lightgray;
-  color: black;
+.image img {
+    position: absolute;
+    min-height: 100%;
+    min-width: 100%
 }
 
-.list-no-decoration{
-  list-style: none;
+.bg-black {
+    background: #282c34;
 }
-.small-text{
-  font-size: 12px;
+
+.link-no-decoration {
+    text-decoration: none !important;
+    color: black;
 }
-.remove-selected{
-  font-size: 20px;
-  cursor: pointer;
+
+.link-no-decoration:hover {
+    text-decoration: none !important;
+    color: black;
 }
-.bottom-column
-{
-  float: none;
-  display: table-cell;
-  vertical-align: bottom;
+
+.category-list-item:hover {
+    background-color: lightgray;
+    color: black;
+}
+
+.list-no-decoration {
+    list-style: none;
+}
+
+.small-text {
+    font-size: 12px;
+}
+
+.remove-selected {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.bottom-column {
+    float: none;
+    display: table-cell;
+    vertical-align: bottom;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("images/books_backround.jpg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.transparent-bg {
+    background: rgba(247, 206, 129, 0.3) /* Blue background with 30% opacity */
+}
+
+.page-item:hover {
+    cursor: pointer;
+}
+
+.category-item-selected {
+    background-color: lightgray;
+}
+
+.row {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.img-home{
+    height: 25rem;
 }

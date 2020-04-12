@@ -43,28 +43,31 @@ class AddBook extends Component {
         event.preventDefault();
         axios.post("http://localhost:8080/books/add/", new FormData(event.target), {})
             .then(res => {
-                this.props.history.push("book/"+res.data.id);
-        })
+                this.props.history.push("book/" + res.data.id);
+            })
     }
 
     onSelectClickAuthor(event) {
         var authorsDiv = document.getElementById("author");
         var authorList = this.state.authors.filter(author => author.id == event.value);
-
-        for (let author in authorList) {
-            authorsDiv.innerHTML += "<span type='text' class='border rounded p-2 m-1 small-text' id='span_author_" + event.value + "' >" +
-                "<input type='hidden' name='authors' value='" + event.value + "' >"
-                + authorList[author].firstName + "<span onclick='removeItem(\"span_author_" + event.value + "\")' class='remove-selected m-1'>X</span></span>"
+        if (!document.getElementById("span_author_" + event.value)) {
+            for (let author in authorList) {
+                authorsDiv.innerHTML += "<span type='text' class='border rounded p-2 m-1 small-text' id='span_author_" + event.value + "' >" +
+                    "<input type='hidden' name='authors' value='" + event.value + "' >"
+                    + authorList[author].firstName + " " + authorList[author].lastName + "<i class='fa fa-close text-danger remove-selected ml-2' onclick='removeItem(\"span_author_" + event.value + "\")'></i></span>"
+            }
         }
     }
 
     onSelectClickGenre(event) {
         var genreDiv = document.getElementById("genre");
         var genreList = this.state.genres.filter(genre => genre.id == event.value);
-        for (let genre in genreList) {
-            genreDiv.innerHTML += "<span type='text' class='border rounded p-2 m-1 small-text' id='span_genre_" + event.value + "' >" +
-                "<input type='hidden' name='genres' value='" + event.value + "' >"
-                + genreList[genre].name + "<span onclick='removeItem(\"span_genre_" + event.value + "\")' class='remove-selected m-1'>X</span></span>"
+        if (!document.getElementById("span_genre_" + event.value)) {
+            for (let genre in genreList) {
+                genreDiv.innerHTML += "<span type='text' class='border rounded p-2 m-1 small-text' id='span_genre_" + event.value + "' >" +
+                    "<input type='hidden' name='genres' value='" + event.value + "' >"
+                    + genreList[genre].name + "<i class='fa fa-close text-danger remove-selected ml-2' onclick='removeItem(\"span_genre_" + event.value + "\")'></i></span>"
+            }
         }
     }
 
@@ -74,11 +77,13 @@ class AddBook extends Component {
             <div>
                 <Nav></Nav>
                 <div className={"container mt-2 mb-2 border rounded bg-light"}>
-                    <div className={"row mt-2 mb-3"}>
+                    <div className={"row mb-3"}>
                         <div className={"col"}>
-                            <div className={"row"}>
-                                <div className={"col"}>
-                                    Add new book
+                            <div className={"row mb-2"}>
+                                <div className={"col card-header"}>
+                                    <h5>
+                                        Add new book
+                                    </h5>
                                 </div>
                             </div>
                             <div className={"row"}>

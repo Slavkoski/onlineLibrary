@@ -12,6 +12,9 @@ import PublisherDetails from "./components/PublisherDetails/PublisherDetails";
 import AddBook from "./components/AddBook/AddBook";
 import AddAuthor from "./components/AddAuthor/AddAuthor";
 import SearchResult from "./components/SearchResult/SearchResult";
+import EditAuthor from "./components/EditAuthor/EditAuthor";
+import EditBook from "./components/EditBook/EditBook";
+import EditPublisher from "./components/EditPublisher/EditPublisher";
 class App extends Component {
 
     render() {
@@ -19,8 +22,10 @@ class App extends Component {
                 <BrowserRouter>
                     <Route path="/" exact component={Home}/>
                     <Route path="/books" component={Home}/>
+                    <Route path="/booksPage/:pageNumber" component={Home}/>
                     <Route path="/genres" component={GenreList}/>
                     <Route path="/genre/:id" component={GenreDetails}/>
+                    <Route path="/genrePage/:id/:pageNumber" component={GenreDetails}/>
                     <Route path="/book/:id" component={BookDetails}/>
                     <Route path="/authors" component={AuthorList}/>
                     <Route path="/author/:id" component={AuthorDetails}/>
@@ -29,6 +34,9 @@ class App extends Component {
                     <Route path="/addBook" component={AddBook}/>
                     <Route path="/addAuthor" component={AddAuthor}/>
                     <Route path="/search/:searchTerm" component={SearchResult}/>
+                    <Route path="/editAuthor/:id" component={EditAuthor}/>
+                    <Route path="/editBook/:id" component={EditBook}/>
+                    <Route path="/editPublisher/:id" component={EditPublisher}/>
                 </BrowserRouter>
             );
         return (
