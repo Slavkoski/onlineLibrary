@@ -1,6 +1,7 @@
 package com.online.library.onlinelibrary.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,8 @@ public class Book {
 
   private String title;
 
+  private Priority priority;
+
   @ManyToMany(mappedBy = "books")
   private List<Author> author;
   @Lob
@@ -35,4 +38,8 @@ public class Book {
   @Lob
   @Column(name = "image",length = 10000000)
   private byte[] image;
+
+  @JsonInclude()
+  @Transient
+  private String labelForHigherLevelOfUser;
 }

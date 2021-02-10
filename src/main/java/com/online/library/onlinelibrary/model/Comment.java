@@ -17,7 +17,10 @@ public class Comment {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
-  private String commentOwnerName;
+
+  @ManyToOne
+  private ApplicationUser user;
+
   @Column(name = "comment",length = 4048)
   private String comment;
   @ManyToOne

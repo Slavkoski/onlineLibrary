@@ -1,26 +1,28 @@
 package com.online.library.onlinelibrary.web;
 
+import com.online.library.onlinelibrary.model.Priority;
+import com.online.library.onlinelibrary.util.Util;
 import com.online.library.onlinelibrary.model.Author;
 import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Genre;
 import com.online.library.onlinelibrary.service.BookService;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin({"*", "localhost:3000"})
 @RestController
@@ -38,6 +40,7 @@ public class BookController {
     return bookService.getAll();
   }
 
+
   @GetMapping(value = "/authors/{bookId}")
   public List<Author> getAuthorsForBook(@PathVariable Integer bookId) {
     return bookService.getAuthorsForBook(bookId);
@@ -50,12 +53,18 @@ public class BookController {
 
   @GetMapping(value = "/page/{pageNumber}")
   public List<Book> getBooksForPage(@PathVariable Integer pageNumber){
-    return bookService.getBooksByPageNumber(pageNumber);
+    return bookService.getBooksByPageNumber(pageNumber,SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+  }
+
+  @GetMapping(value = "/{priority}")
+  public List<Book> getAllByPriority(
+          @PathVariable String priority) {
+    return bookService.getBooksByPriority(Priority.valueOf(priority),SecurityContextHolder.getContext().getAuthentication().getAuthorities());
   }
 
   @GetMapping(value = "/numberOfPages")
   public Integer getNumberOfPages(){
-    return bookService.getNumberOfPages();
+    return bookService.getNumberOfPages("");
   }
 
   @PostMapping(value = "/add")
@@ -65,11 +74,12 @@ public class BookController {
       @RequestParam Integer[] genres,
       @RequestParam Integer publisherId,
       @RequestParam Integer[] authors,
+      @RequestParam String priority,
       @RequestParam MultipartFile image,
       @RequestParam MultipartFile pdf
   ) {
     return bookService.save(title, description, publishedYear, publisherId, Arrays.asList(genres),
-        Arrays.asList(authors), image, pdf);
+        Arrays.asList(authors), priority, image, pdf);
   }
 
   @PostMapping(value = "/delete")
@@ -108,8 +118,13 @@ public class BookController {
   @GetMapping(value = "/pdf/{bookId}")
   public void getPdf(@PathVariable Integer bookId, HttpServletResponse response)
       throws IOException {
-    response.setContentType("application/pdf");
-    response.getOutputStream().write(bookService.getPdfByBookId(bookId));
-    response.getOutputStream().close();
+    byte [] pdf=bookService.getPdfByBookId(bookId);
+    if(pdf!=null){
+        response.setContentType("application/pdf");
+        response.getOutputStream().write(bookService.getPdfByBookId(bookId));
+        response.getOutputStream().close();
+    }else{
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+    }
   }
 }

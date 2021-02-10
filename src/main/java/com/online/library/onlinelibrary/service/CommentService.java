@@ -3,7 +3,6 @@ package com.online.library.onlinelibrary.service;
 import com.online.library.onlinelibrary.model.Book;
 import com.online.library.onlinelibrary.model.Comment;
 
-import com.online.library.onlinelibrary.model.SearchResultModel;
 import java.util.List;
 
 public interface CommentService {
@@ -13,7 +12,7 @@ public interface CommentService {
 
   List<Comment> getAllByBookId(int bookId);
 
-  Comment addComment(String description, String commentOwnerName, Integer bookId);
+  Comment addComment(String description, Integer bookId);
 
   void deleteCommentById(Integer commentId);
 

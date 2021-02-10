@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import axios from 'axios';
+
+import fetchClient from "../../fetchClient";
 
 class AddGenre extends Component {
 
@@ -10,7 +11,7 @@ class AddGenre extends Component {
     addGenre(event) {
         const form = new FormData(event.target);
         if (form.get("name")) {
-            axios.post("http://localhost:8080/genre/add/", form)
+            fetchClient.post("http://localhost:8080/genre/add/", form)
         }
     }
 

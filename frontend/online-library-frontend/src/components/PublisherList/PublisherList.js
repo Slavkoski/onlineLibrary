@@ -2,13 +2,16 @@ import React, {Component} from "react";
 import Nav from "../Nav/Nav";
 import AddPublisher from "../AddPublisher/AddPublisher";
 import axios from 'axios';
+import fetchClient from "../../fetchClient";
+import {checkUserHasRole} from "../../Util";
 
 class PublisherList extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: null
+            data: null,
+            currentUser: JSON.parse(localStorage.getItem("userDetails"))
         }
     }
 
@@ -27,14 +30,28 @@ class PublisherList extends Component {
         })
     }
 
+    delete(publisherId) {
+        if (window.confirm("Are you sure that you want to delete?")) {
+            var form = new FormData();
+            form.set("publisherId", publisherId);
+            fetchClient.post("http://localhost:8080/publisher/delete", form)
+                .then(() => {
+                        window.location.reload(false);
+                    }
+                ).catch(er => {
+                console.log("cannot delete");
+            })
+        }
+    }
+
     render() {
-        document.title="Online Library: Publishers";
+        document.title = "Online Library: Publishers";
         return (
             <div>
                 <Nav></Nav>
                 <div className={"container"}>
                     {
-                        this.state.data != null ? (
+                        this.state.data != null ?
                             <div>
                                 {
                                     this.state.data.map((item, index) => {
@@ -61,9 +78,10 @@ class PublisherList extends Component {
                                                                              className="col-lg-2 col-md-2 col-sm-2 m-2">
                                                                             <div className="card m-2">
                                                                                 <div className={"image"}>
-                                                                                    <img className="card-img-top"
-                                                                                         src={"http://localhost:8080/books/image/" + book.id}
-                                                                                         alt=""/>
+                                                                                    <img
+                                                                                        className="card-img-top"
+                                                                                        src={"http://localhost:8080/books/image/" + book.id}
+                                                                                        alt=""/>
                                                                                 </div>
                                                                                 <div className="card-body">
                                                                                     <h6><a
@@ -78,6 +96,32 @@ class PublisherList extends Component {
                                                                 :
                                                                 <div>
                                                                     No books from this publisher
+                                                                    {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                                        ?
+                                                                        <div className={"row"}>
+
+                                                                            <div className={"col m-2"}>
+                                                                                <a href={"/addBook"}
+                                                                                   className={"btn btn-primary"}>Add
+                                                                                    Book</a>
+                                                                            </div>
+                                                                        </div>
+                                                                        : ""
+                                                                    }
+                                                                    {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                                        ?
+                                                                        <div className={"row"}>
+
+                                                                            <div className={"col m-2"}>
+                                                                                <button
+                                                                                    onClick={this.delete.bind(this, item.id)}
+                                                                                    className={"btn btn-danger"}>Delete
+                                                                                    Genre
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        : ""
+                                                                    }
                                                                 </div>
                                                         }
                                                         {
@@ -85,17 +129,37 @@ class PublisherList extends Component {
                                                                 <div className={"col"}>
                                                                     <div className={"row"}>
                                                                         <div className={"col m-2 mt-3"}>
-                                                                            <a href={"/genre/" + item.id}
-                                                                               className="btn btn-primary">more ...</a>
+                                                                            <a href={"/publisher/" + item.id}
+                                                                               className="btn btn-primary">more
+                                                                                ...</a>
                                                                         </div>
                                                                     </div>
-                                                                    <div className={"row"}>
-                                                                        <div className={"col m-2"}>
-                                                                            <a href={"/addBook"}
-                                                                               className={"btn btn-primary"}>Add
-                                                                                Book</a>
+                                                                    {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                                        ?
+                                                                        <div className={"row"}>
+
+                                                                            <div className={"col m-2"}>
+                                                                                <a href={"/addBook"}
+                                                                                   className={"btn btn-primary"}>Add
+                                                                                    Book</a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        : ""
+                                                                    }
+                                                                    {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                                        ?
+                                                                        <div className={"row"}>
+
+                                                                            <div className={"col m-2"}>
+                                                                                <button
+                                                                                    onClick={this.delete.bind(this, item.id)}
+                                                                                    className={"btn btn-danger"}>Delete
+                                                                                    Genre
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        : ""
+                                                                    }
                                                                 </div>
                                                                 :
                                                                 <div>
@@ -107,11 +171,19 @@ class PublisherList extends Component {
                                         );
                                     })
                                 }
-                                <AddPublisher></AddPublisher>
+                                {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                    ?
+                                    <AddPublisher></AddPublisher>
+                                    : ""
+                                }
                             </div>
-                        ) : (
-                            <AddPublisher></AddPublisher>
-                        )
+                            : <div>
+                                {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                    ?
+                                    <AddPublisher></AddPublisher>
+                                    : ""
+                                }
+                            </div>
                     }
                 </div>
             </div>

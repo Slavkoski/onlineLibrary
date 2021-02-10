@@ -1,16 +1,35 @@
 import React, {Component} from 'react';
 import {NavLink} from 'react-router-dom';
+import {checkUserHasRole} from "../../Util";
 import {
     withRouter
 } from 'react-router-dom';
 import './Nav.css';
+import fetchClient from "../../fetchClient";
 
 class Nav extends Component {
 
     state = {
         menuShown: false,
-        searchTerm: ""
+        searchTerm: "",
+        userDetails: null
     };
+
+    async componentWillMount() {
+        this.state.userDetails = JSON.parse(localStorage.getItem("userDetails"));
+        if (!this.state.userDetails) {
+            await fetchClient.get("http://localhost:8080/users/details")
+                .then(res => {
+                    if(res.data) {
+                        this.setState({
+                            userDetails: JSON.stringify(res.data)
+                        });
+                        // userDetails=JSON.stringify(res.data);
+                        localStorage.setItem("userDetails", this.state.userDetails)
+                    }
+                })
+        }
+    }
 
 
     toggleSidebar() {
@@ -33,10 +52,18 @@ class Nav extends Component {
         }));
     }
 
-    search(event){
+    search(event) {
         // event.preventDefault();
         var form = new FormData(event.target);
-        this.props.history.push("/search/"+form.get("searchTerm"));
+        this.props.history.push("/search/" + form.get("searchTerm"));
+    }
+
+    signOut() {
+        localStorage.clear();
+        if (this.props.location.pathname === "/books") {
+            window.location.reload();
+        }
+        this.props.history.push("/books")
     }
 
     render() {
@@ -87,6 +114,7 @@ class Nav extends Component {
                                              className="menu_menu nav-item m-4" to={'/publishers'}>
                                         Publishers
                                     </NavLink>
+                                    {this.state.userDetails && checkUserHasRole(this.state.userDetails,"ADMIN") ?
                                     <NavLink key={'navbar-add-book'}
                                              style={{
                                                  color: "white",
@@ -96,29 +124,57 @@ class Nav extends Component {
                                              className="menu_menu m-4" to={'/addBook'}>
                                         Add Book
                                     </NavLink>
-                                    <NavLink key={'navbar-add-author'}
-                                             style={{
-                                                 color: "white",
-                                                 fontSize: "initial",
-                                                 fontWeight: "bold"
-                                             }}
-                                             className="menu_menu m-4" to={'/addAuthor'}>
-                                        Add Author
-                                    </NavLink>
+
+                                        : ""}
+                                    {this.state.userDetails && checkUserHasRole(this.state.userDetails,"ADMIN") ?
+                                        <NavLink key={'navbar-add-author'}
+                                                 style={{
+                                                     color: "white",
+                                                     fontSize: "initial",
+                                                     fontWeight: "bold"
+                                                 }}
+                                                 className="menu_menu m-4" to={'/addAuthor'}>
+                                            Add Author
+                                        </NavLink>
+                                    : ""}
+
                                 </div>
                             </div>
-                            <div className={"navbar-nav ml-auto m-2 w-30"}>
+                            <div className={"navbar-nav ml-auto m-2"}>
                                 <form onSubmit={this.search.bind(this)} noValidate>
-                                <div className="input-group">
-                                    <input type="text" className="form-control" name={"searchTerm"} id="search" placeholder="Search"/>
-                                    <div className="input-group-append">
-                                        <button type={"submit"} className="btn btn-secondary">
-                                            <i className="fa fa-search"></i>
-                                        </button>
+                                    <div className="input-group">
+                                        <input type="text" className="form-control" name={"searchTerm"}
+                                               id="search" placeholder="Search"/>
+                                        <div className="input-group-append">
+                                            <button type={"submit"} className="btn btn-secondary">
+                                                <i className="fa fa-search"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                </div>
                                 </form>
                             </div>
+                            {
+                                this.state.userDetails ?
+                                    <div className={"navbar-nav ml-auto m-2 nav-user"}>
+                                            <div className="input-group nav-user">
+                                                <a className="text-white" href={"/users/details/"+this.state.userDetails.id} key={'navbar-user'}>Hello {this.state.userDetails.firstName}</a>
+                                            {this.state.userDetails && checkUserHasRole(this.state.userDetails,"ADMIN") ?
+                                                <a className="text-white" href={"/users/management"} id={'navbar-user-management'}>User Management</a>
+                                                : ""}
+                                            <p className="text-right text-white sign-out-button"
+                                               onClick={this.signOut.bind(this)}>Sign out</p>
+                                        </div>
+                                    </div>
+                                    :
+                                        <div className={"navbar-nav ml-auto m-2"}>
+                                            <a href={"/login"} className="btn btn-secondary nobr mr-2">
+                                                Log in
+                                            </a>
+                                            <a href={"/signup"} className="btn btn-secondary nobr">
+                                                Sign up
+                                            </a>
+                                        </div>
+                            }
                         </div>
                     </div>
                 </nav>

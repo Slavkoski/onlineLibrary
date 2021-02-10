@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import Nav from "../Nav/Nav";
 import BookList from "../BookList/BookList";
 import axios from 'axios';
+import fetchClient from "../../fetchClient";
+import {checkUserHasRole} from "../../Util";
 
 class PublisherDetails extends Component {
 
@@ -9,12 +11,13 @@ class PublisherDetails extends Component {
         super(props);
         this.state = {
             data: null,
-            id: props.match.params.id
+            id: props.match.params.id,
+            currentUser: JSON.parse(localStorage.getItem("userDetails"))
         }
     }
 
     async componentWillMount() {
-        await axios.get("http://localhost:8080/publisher/" + this.state.id).then(res => {
+        await fetchClient.get("http://localhost:8080/publisher/" + this.state.id).then(res => {
             this.setState({
                 data: res.data
             });
@@ -25,10 +28,9 @@ class PublisherDetails extends Component {
 
     delete() {
         if (window.confirm("Are you sure that you want to delete?")) {
-            console.log(this.state.id);
             var form = new FormData();
             form.set("publisherId", this.state.id);
-            axios.post("http://localhost:8080/publisher/delete", form)
+            fetchClient.post("http://localhost:8080/publisher/delete", form)
                 .then(res => {
                         if (res.data) {
                             this.props.history.push("/publishers")
@@ -63,14 +65,21 @@ class PublisherDetails extends Component {
                                                 <h3>{this.state.data.name}</h3>
                                                 {this.state.data.description}
                                                 <br/>
-                                                <a href={"/addBook"} className={"btn btn-primary"}>Add Book For This
-                                                    Publisher</a>
-                                                <br/>
-                                                <a href={"/editPublisher/" + this.state.data.id}
-                                                   className={"btn btn-primary mt-2"}>Edit</a>
-                                                <br/>
-                                                <button className="btn btn-danger mt-2" onClick={this.delete.bind(this)}>Delete
-                                                </button>
+                                                {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                    ? <div>
+                                                        <a href={"/addBook"} className={"btn btn-primary"}>Add
+                                                            Book For This
+                                                            Publisher</a>
+                                                        <br/>
+                                                        <a href={"/editPublisher/" + this.state.data.id}
+                                                           className={"btn btn-primary mt-2"}>Edit</a>
+                                                        <br/>
+                                                        <button className="btn btn-danger mt-2"
+                                                                onClick={this.delete.bind(this)}>Delete
+                                                        </button>
+                                                    </div>
+                                                    : ""
+                                                }
                                             </div>
                                         </div>
                                     </div>

@@ -28,7 +28,6 @@ class GenreDetails extends Component {
     }
 
     pagination = (e) => {
-        debugger;
         let page = e.target.innerText;
         axios.get("http://localhost:8080/home/page/" + page).then(res => {
             this.setState({

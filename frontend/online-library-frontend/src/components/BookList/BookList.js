@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import axios from 'axios';
-import Nav from "../Nav/Nav";
 
 class BookList extends Component {
 
@@ -13,7 +12,11 @@ class BookList extends Component {
     }
 
     async componentDidMount() {
-        await axios.get(this.state.path).then(res => {
+        await axios.get(this.state.path,{
+            headers:{
+                "authorization" : localStorage["authorization"]
+            }
+        }).then(res => {
             this.setState({
                 books: res.data
             })
@@ -49,7 +52,7 @@ class BookList extends Component {
                                 </div>
                             )
                         }) : <div>
-                            No books from this publisher
+                            No available book.
                             <a href={"/addBook"} className={"btn btn-primary ml-2"}>Add
                                 Book</a>
                         </div>

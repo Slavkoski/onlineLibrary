@@ -41,7 +41,10 @@ class AddBook extends Component {
 
     addBook(event) {
         event.preventDefault();
-        axios.post("http://localhost:8080/books/add/", new FormData(event.target), {})
+        axios.post("http://localhost:8080/books/add/", new FormData(event.target), {
+            headers: {
+                'Authorization': localStorage.getItem("Authorization")
+            }},)
             .then(res => {
                 this.props.history.push("book/" + res.data.id);
             })
@@ -68,6 +71,13 @@ class AddBook extends Component {
                     "<input type='hidden' name='genres' value='" + event.value + "' >"
                     + genreList[genre].name + "<i class='fa fa-close text-danger remove-selected ml-2' onclick='removeItem(\"span_genre_" + event.value + "\")'></i></span>"
             }
+        }
+    }
+
+    removeItem(id) {
+        var el = document.getElementById(id);
+        if (el) {
+            el.remove();
         }
     }
 
@@ -156,6 +166,16 @@ class AddBook extends Component {
                                                                     value={publisher.id}>{publisher.name}</option>
                                                             }) : <option>No Publishers available</option>
                                                     }
+                                                </select>
+
+                                                <label htmlFor={"priority"}>Priority</label>
+                                                <select className={"form-control mb-2"} name={"priority"}
+                                                        id={"priority"}
+                                                        required>
+                                                    <option selected></option>
+                                                    <option value={"UNREGISTERED"}>Unregistered</option>
+                                                    <option value={"REGISTERED"}>Registered</option>
+                                                    <option value={"PREMIUM"}>Premium</option>
                                                 </select>
                                             </div>
                                         </div>

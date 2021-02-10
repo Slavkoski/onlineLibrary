@@ -1,8 +1,6 @@
 import React, {Component} from "react";
 import Nav from "../Nav/Nav";
-import axios from 'axios';
-import DatePicker from "react-datepicker/es";
-import {Redirect} from "react-router-dom"
+import fetchClient from "../../fetchClient";
 
 class AddAuthor extends Component {
 
@@ -12,7 +10,7 @@ class AddAuthor extends Component {
 
     async addAuthor(event) {
         event.preventDefault();
-        axios.post("http://localhost:8080/authors/add", new FormData(event.target), {})
+        fetchClient.post("http://localhost:8080/authors/add", new FormData(event.target), {})
             .then(res => {
                 this.props.history.push("author/" + res.data.id);
             });

@@ -36,9 +36,8 @@ public class CommentController {
 
   @PostMapping(value = "/add")
   public Comment addComment(@RequestParam String description,
-      @RequestParam String commentOwnerName,
       @RequestParam Integer bookId) {
-    return commentService.addComment(description, commentOwnerName, bookId);
+    return commentService.addComment(description, bookId);
   }
 
   @PostMapping(value = "/delete")

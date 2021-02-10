@@ -102,5 +102,9 @@ code {
 }
 
 .img-home{
-    height: 25rem;
+    height: 23rem;
+}
+
+.hidden{
+    display: none;
 }

@@ -1,0 +1,16 @@
+.image-overlay {
+    position: absolute;
+    top: 60%;
+    width: 30%;
+    height: 10%;
+    background-color: rgba(41,128,185,0.9);
+    color: #fff;
+    transform: rotate(-45deg) translate(100%, 0);
+    transform-origin: right bottom;
+    overflow: hidden;
+    margin-left: 30%;
+}
+.image-overlay-placeholder {
+    position: relative;
+    max-width: 500px;
+}

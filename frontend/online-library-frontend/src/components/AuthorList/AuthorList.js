@@ -3,13 +3,15 @@ import React, {Component} from "react";
 import Nav from "../Nav/Nav";
 // import AddGenre from "../AddGenre/AddGenre"
 import axios from 'axios';
+import {checkUserHasRole} from "../../Util";
 
 class AuthorList extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: null
+            data: null,
+            currentUser: JSON.parse(localStorage.getItem("userDetails"))
         }
     }
 
@@ -88,8 +90,11 @@ class AuthorList extends Component {
                                                         :
                                                         <div>
                                                             No books for this author
-                                                            <a href={"/addBook"} className={"btn btn-primary ml-2"}>Add
+                                                            {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                            ? <a href={"/addBook"} className={"btn btn-primary ml-2"}>Add
                                                                 Book</a>
+                                                                : ""
+                                                            }
                                                         </div>
                                                 }
                                                 {
@@ -101,12 +106,17 @@ class AuthorList extends Component {
                                                                        className="btn btn-primary">More ...</a>
                                                                 </div>
                                                             </div>
-                                                            <div className={"row"}>
-                                                                <div className={"col m-2"}>
-                                                                    <a href={"/addBook"}
-                                                                       className={"btn btn-primary"}>Add Book</a>
+                                                            {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                                ?
+                                                                <div className={"row"}>
+                                                                    <div className={"col m-2"}>
+                                                                        <a href={"/addBook"}
+                                                                           className={"btn btn-primary"}>Add
+                                                                            Book</a>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                                : ""
+                                                            }
                                                         </div>
                                                         :
                                                         <div>
@@ -119,8 +129,12 @@ class AuthorList extends Component {
                             })
                         ) : (<div>
                                 <p>No authors available</p>
-                                <a href={"/addAuthor"}
-                                   className={"btn btn-primary"}>Add Book</a>
+                                {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                    ?
+                                    <a href={"/addAuthor"}
+                                       className={"btn btn-primary"}>Add Author</a>
+                                    : ""
+                                }
                             </div>
                         )
                     }

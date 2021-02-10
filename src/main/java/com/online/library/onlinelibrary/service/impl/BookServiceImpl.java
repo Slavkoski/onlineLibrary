@@ -1,10 +1,6 @@
 package com.online.library.onlinelibrary.service.impl;
 
-import com.online.library.onlinelibrary.model.Author;
-import com.online.library.onlinelibrary.model.Book;
-import com.online.library.onlinelibrary.model.Genre;
-import com.online.library.onlinelibrary.model.Publisher;
-import com.online.library.onlinelibrary.model.SearchResultModel;
+import com.online.library.onlinelibrary.model.*;
 import com.online.library.onlinelibrary.repository.AuthorRepository;
 import com.online.library.onlinelibrary.repository.BookRepository;
 import com.online.library.onlinelibrary.repository.GenreRepository;
@@ -12,7 +8,13 @@ import com.online.library.onlinelibrary.repository.PublisherRepository;
 import com.online.library.onlinelibrary.service.BookService;
 import com.online.library.onlinelibrary.service.CommentService;
 import com.online.library.onlinelibrary.service.GenreService;
+
+import java.util.Collection;
 import java.util.stream.Collectors;
+
+import com.online.library.onlinelibrary.util.Util;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,8 +46,8 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public Book save(final String title, final String description, final String publishedYear,
-      final Integer publishedId, List<Integer> genreIds, List<Integer> authors,
-      final MultipartFile image, final MultipartFile pdf) {
+                   final Integer publishedId, List<Integer> genreIds, List<Integer> authors,
+                   final String priority, final MultipartFile image, final MultipartFile pdf) {
     genreIds = genreIds.stream().distinct().collect(Collectors.toList());
     authors = authors.stream().distinct().collect(Collectors.toList());
     List<Author> authorList = new ArrayList<>();
@@ -55,6 +57,7 @@ public class BookServiceImpl implements BookService {
           .description(description)
           .publishedYear(publishedYear)
           .author(new ArrayList<>())
+          .priority(Priority.valueOf(priority))
           .image(image.getBytes())
           .pdf(pdf.getBytes())
           .build());
@@ -130,7 +133,15 @@ public class BookServiceImpl implements BookService {
 
   @Override
   public byte[] getPdfByBookId(Integer bookId) {
-    return bookRepository.getOne(bookId).getPdf();
+    final Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext()
+                                                                                    .getAuthentication()
+                                                                                    .getAuthorities();
+    Book book=bookRepository.getOne(bookId);
+    if(Util.isValidBookForUser(book,authorities)){
+//      return java.util.Base64.getDecoder().decode(new String(book.getPdf()));
+      return book.getPdf();
+    }
+    return null;
   }
 
   @Override
@@ -144,16 +155,21 @@ public class BookServiceImpl implements BookService {
   }
 
   @Override
-  public List<Book> getBooksByPageNumber(Integer pageNumber) {
+  public List<Book> getBooksByPageNumber(Integer pageNumber, final Collection<? extends GrantedAuthority> authorities) {
+
     List<Book> allBooks = getAll();
+    allBooks.forEach(book -> book.setLabelForHigherLevelOfUser(Util.getLabelForPriority(book)));
     int listSize = allBooks.size();
     return allBooks.subList(calculateStartIndex(pageNumber, listSize),
         calculateEndIndex(pageNumber, listSize));
   }
 
   @Override
-  public Integer getNumberOfPages() {
-    return calculateNumberOfPages(getAll().size());
+  public Integer getNumberOfPages(final String priority) {
+    if(priority!=null && priority.equals("")){
+      return calculateNumberOfPages(getAll().size());
+    }
+    return calculateNumberOfPages(getAllBooksByPriority(Priority.valueOf(priority)).size());
   }
 
   @Override
@@ -234,6 +250,17 @@ public class BookServiceImpl implements BookService {
       return bookRepository.save(book);
     }
     return null;
+  }
+
+  @Override
+  public List<Book> getBooksByPriority( final Priority priority, final Collection<? extends GrantedAuthority> authorities) {
+    List<Book> allBooks = bookRepository.findAllByPriority(priority);;
+    allBooks.forEach(book -> book.setLabelForHigherLevelOfUser(Util.getLabelForPriority(book)));
+    return allBooks;
+  }
+
+  public List<Book> getAllBooksByPriority(Priority priority){
+    return bookRepository.findAllByPriority(priority);
   }
 
   private SearchResultModel createSearchResultModel(Book book) {

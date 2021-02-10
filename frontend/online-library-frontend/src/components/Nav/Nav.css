@@ -22,4 +22,20 @@ img {
     width: 30%;
 }
 
+.nobr{
+    white-space: nowrap;
+}
+
+.nav-user div{
+    display: list-item;
+}
+
+.sign-out-button:hover{
+    cursor: pointer;
+}
+
+#navbar-user-management{
+    display: block;
+}
+
 

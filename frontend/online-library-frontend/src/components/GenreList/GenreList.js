@@ -2,18 +2,35 @@ import React, {Component} from "react";
 import Nav from "../Nav/Nav";
 import AddGenre from "../AddGenre/AddGenre"
 import axios from 'axios';
+import fetchClient from "../../fetchClient";
+import {checkUserHasRole} from "../../Util";
 
 class GenreList extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            data: null
+            data: null,
+            currentUser: JSON.parse(localStorage.getItem("userDetails"))
+        }
+    }
+
+    delete(genreId) {
+        if (window.confirm("Are you sure that you want to delete?")) {
+            var form = new FormData();
+            form.set("genreId", genreId);
+            fetchClient.post("http://localhost:8080/genre/delete", form)
+                .then(() => {
+                            window.location.reload(false);
+                    }
+                ).catch(er => {
+                console.log("cannot delete");
+            })
         }
     }
 
     async componentWillMount() {
-        await axios.get("http://localhost:8080/genre").then(res => {
+        await fetchClient.get("http://localhost:8080/genre").then(res => {
             res.data.map((category, index) => {
                 if (category.books.length > 4) {
                     category.books = category.books.slice(0, 4);
@@ -34,7 +51,7 @@ class GenreList extends Component {
                 <Nav></Nav>
                 <div className={"container"}>
                     {
-                        this.state.data != null ? (
+                        this.state.data != null ?
                             <div>
                                 {
                                     this.state.data.map((item, index) => {
@@ -78,6 +95,29 @@ class GenreList extends Component {
                                                                 :
                                                                 <div>
                                                                     No books for this category
+                                                                    {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                                        ?
+                                                                        <div className={"row"}>
+
+                                                                            <div className={"col m-2"}>
+                                                                                <a href={"/addBook"}
+                                                                                   className={"btn btn-primary"}>Add
+                                                                                    Book</a>
+                                                                            </div>
+                                                                        </div>
+                                                                        : ""
+                                                                    }
+                                                                    {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                                        ?
+                                                                        <div className={"row"}>
+
+                                                                            <div className={"col m-2"}>
+                                                                                <button onClick={this.delete.bind(this,item.id)}
+                                                                                        className={"btn btn-danger"}>Delete Genre</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        : ""
+                                                                    }
                                                                 </div>
                                                         }
                                                         {
@@ -89,14 +129,29 @@ class GenreList extends Component {
                                                                                className="btn btn-primary">more ...</a>
                                                                         </div>
                                                                     </div>
-                                                                    <div className={"row"}>
+                                                                    {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                                        ?
+                                                                        <div className={"row"}>
 
-                                                                        <div className={"col m-2"}>
-                                                                            <a href={"/addBook"}
-                                                                               className={"btn btn-primary"}>Add
-                                                                                Book</a>
+                                                                            <div className={"col m-2"}>
+                                                                                <a href={"/addBook"}
+                                                                                   className={"btn btn-primary"}>Add
+                                                                                    Book</a>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                        : ""
+                                                                    }
+                                                                    {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                                                        ?
+                                                                        <div className={"row"}>
+
+                                                                            <div className={"col m-2"}>
+                                                                                <button onClick={this.delete.bind(this,item.id)}
+                                                                                   className={"btn btn-danger"}>Delete Genre</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        : ""
+                                                                    }
                                                                 </div>
                                                                 :
                                                                 <div>
@@ -108,11 +163,22 @@ class GenreList extends Component {
                                         );
                                     })
                                 }
-                                <AddGenre></AddGenre>
+                                {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                    ?
+                                    <AddGenre></AddGenre>
+                                    : ""
+                                }
                             </div>
-                        ) : (
-                            <AddGenre></AddGenre>
-                        )
+                         :
+                            <div>
+                                {
+                                    this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
+                                        ?
+                                        <AddGenre></AddGenre>
+                                        : ""
+                                }
+                            </div>
+
                     }
                 </div>
             </div>

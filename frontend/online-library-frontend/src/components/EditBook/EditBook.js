@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Nav from "../Nav/Nav";
 import axios from 'axios';
+import fetchClient from "../../fetchClient";
 
 class EditBook extends Component {
 
@@ -16,13 +17,13 @@ class EditBook extends Component {
     }
 
     async componentDidMount() {
-        axios.get("http://localhost:8080/books/details/" + this.state.id)
+        fetchClient.get("http://localhost:8080/books/details/" + this.state.id)
             .then(res => {
                 this.setState({
                     book: res.data
                 })
             });
-        await axios.get("http://localhost:8080/publisher/book/" + this.state.id).then(res => {
+        await fetchClient.get("http://localhost:8080/publisher/book/" + this.state.id).then(res => {
             var newBook = this.state.book;
             newBook.publisher = res.data;
             this.setState({
@@ -31,7 +32,7 @@ class EditBook extends Component {
         }).catch((err) => {
             console.log("Error: ", err);
         });
-        await axios.get("http://localhost:8080/genre/book/" + this.state.id).then(res => {
+        await fetchClient.get("http://localhost:8080/genre/book/" + this.state.id).then(res => {
             var newBook = this.state.book;
             newBook.genres = res.data;
             this.setState({
@@ -40,7 +41,7 @@ class EditBook extends Component {
         }).catch((err) => {
             console.log("Error: ", err);
         });
-        await axios.get("http://localhost:8080/authors").then(res => {
+        await fetchClient.get("http://localhost:8080/authors").then(res => {
             this.setState({
                 authors: res.data
             })
@@ -48,7 +49,7 @@ class EditBook extends Component {
             console.log(err);
         });
 
-        await axios.get("http://localhost:8080/genre").then(res => {
+        await fetchClient.get("http://localhost:8080/genre").then(res => {
             this.setState({
                 genres: res.data
             })
@@ -56,7 +57,7 @@ class EditBook extends Component {
             console.log(err);
         });
 
-        await axios.get("http://localhost:8080/publisher").then(res => {
+        await fetchClient.get("http://localhost:8080/publisher").then(res => {
             this.setState({
                 publishers: res.data
             })
@@ -67,7 +68,7 @@ class EditBook extends Component {
 
     async saveBook(event) {
         event.preventDefault();
-        axios.post("http://localhost:8080/books/save", new FormData(event.target), {})
+        fetchClient.post("http://localhost:8080/books/save", new FormData(event.target), {})
             .then(res => {
                 this.props.history.push("/book/" + res.data.id);
             });
@@ -118,9 +119,6 @@ class EditBook extends Component {
                 spanElement.appendChild(inputElement);
                 spanElement.appendChild(iElement);
                 genreDiv.appendChild(spanElement);
-                // genreDiv.innerHTML += "<span type='text' class='border rounded p-2 m-1 small-text' id='span_genre_" + event.value + "' >" +
-                //     "<input type='hidden' name='genres' value='" + event.value + "' >"
-                //     + genreList[genre].name + "<i class='fa fa-close text-danger remove-selected ml-2' onclick='removeItem(\"span_genre_" + event.value + "\")'></i></span>"
             }
         }
     }

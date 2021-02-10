@@ -15,7 +15,16 @@ import SearchResult from "./components/SearchResult/SearchResult";
 import EditAuthor from "./components/EditAuthor/EditAuthor";
 import EditBook from "./components/EditBook/EditBook";
 import EditPublisher from "./components/EditPublisher/EditPublisher";
+import Login from "./components/Login/Login";
+import SignUp from "./components/SighUp/SignUp";
+import UserManagement from "./components/UserManagement/UserManagement";
+import UserDetails from "./components/UserDetails/UserDetails";
+import EditUser from "./components/EditUser/EditUser";
+import ChangePassword from "./components/ChangePassword/ChangePassword";
+import UpdateToPremium from "./components/UpdateToPremium/UpdateToPremium";
 class App extends Component {
+
+
 
     render() {
         let routes = (
@@ -23,6 +32,7 @@ class App extends Component {
                     <Route path="/" exact component={Home}/>
                     <Route path="/books" component={Home}/>
                     <Route path="/booksPage/:pageNumber" component={Home}/>
+                    <Route path="/booksByPriority/:priority" component={Home}/>
                     <Route path="/genres" component={GenreList}/>
                     <Route path="/genre/:id" component={GenreDetails}/>
                     <Route path="/genrePage/:id/:pageNumber" component={GenreDetails}/>
@@ -37,6 +47,13 @@ class App extends Component {
                     <Route path="/editAuthor/:id" component={EditAuthor}/>
                     <Route path="/editBook/:id" component={EditBook}/>
                     <Route path="/editPublisher/:id" component={EditPublisher}/>
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/signup" component={SignUp} />
+                    <Route path="/users/management" component={UserManagement}/>
+                    <Route path="/users/details/:id" component={UserDetails}/>
+                    <Route path="/users/edit/:id" component={EditUser}/>
+                    <Route path="/users/password/:id" component={ChangePassword}/>
+                    <Route path="/updateToPremium" component={UpdateToPremium}/>
                 </BrowserRouter>
             );
         return (

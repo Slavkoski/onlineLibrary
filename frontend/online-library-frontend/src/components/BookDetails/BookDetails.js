@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import Nav from "../Nav/Nav";
 import Comment from "../Comment/Comment"
 import axios from 'axios';
+import fetchClient from "../../fetchClient";
+import {checkUserHasRole} from "../../Util";
 
 class BookDetails extends Component {
 
@@ -11,28 +13,28 @@ class BookDetails extends Component {
             data: null,
             id: props.match.params.id,
             publisher: [],
-            genres: []
+            genres: [],
+            userDetails: null
         }
     }
 
     async componentDidMount() {
-        await axios.get("http://localhost:8080/books/details/" + this.state.id).then(res => {
-            // debugger;
+        this.state.userDetails = JSON.parse(localStorage.getItem("userDetails"));
+        await fetchClient.get("http://localhost:8080/books/details/" + this.state.id, {}).then(res => {
             this.setState({
                 data: res.data,
-                // publisher: this.getPublisher(this.state.id)
             })
         }).catch((err) => {
             console.log("Error: ", err);
         })
-        await axios.get("http://localhost:8080/publisher/book/" + this.state.id).then(res => {
+        await fetchClient.get("http://localhost:8080/publisher/book/" + this.state.id).then(res => {
             this.setState({
                 publisher: res.data
             })
         }).catch((err) => {
             console.log("Error: ", err);
         });
-        await axios.get("http://localhost:8080/genre/book/" + this.state.id).then(res => {
+        await fetchClient.get("http://localhost:8080/genre/book/" + this.state.id).then(res => {
             this.setState({
                 genres: res.data
             })
@@ -41,14 +43,13 @@ class BookDetails extends Component {
         });
     }
 
-    delete(){
+    delete() {
         if (window.confirm("Are you sure that you want to delete?")) {
-            console.log(this.state.id);
-            var form=new FormData();
-            form.set("bookId",this.state.id);
-            axios.post("http://localhost:8080/books/delete",form)
-                .then(res=> {
-                        if(res.data){
+            var form = new FormData();
+            form.set("bookId", this.state.id);
+            fetchClient.post("http://localhost:8080/books/delete", form)
+                .then(res => {
+                        if (res.data) {
                             this.props.history.push("/books");
                         }
                     }
@@ -58,12 +59,56 @@ class BookDetails extends Component {
         }
     }
 
-    render() {
-        var name="";
-        if(this.state.data){
-            name=": " +this.state.data.title;
+    openPdf(){
+        fetchClient.get("http://localhost:8080/books/pdf/" + this.state.id, {responseType:"arraybuffer"})
+            .then((response) => {
+                var file = new Blob([response.data], { type: "application/pdf" });
+                const fileURL = URL.createObjectURL(file);
+
+                // Open the URL on new Window
+                const pdfWindow = window.open(fileURL,"_blank");
+                URL.revokeObjectURL(fileURL);
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    getDownloadPdfButton(user,book){
+        if(book.priority==="UNREGISTERED" || checkUserHasRole(user,"ADMIN") || checkUserHasRole(user,"PREMIUM_USER")){
+            return (<button className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
+                      onClick={this.openPdf.bind(this)}>Download
+                PDF</button>)
+        }else if (book.priority==="REGISTERED"){
+            if(!user){
+                return (<a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
+                           href={"/login"}>Log in to see this book</a>)
+            }else{
+                return (<button className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
+                                onClick={this.openPdf.bind(this)}>Download
+                    PDF</button>)
+            }
+        }else if (book.priority==="PREMIUM"){
+            if(!user) {
+                return (
+                    <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
+                       href={"/login"}>Log in to see this book</a>)
+            }else{
+                return (
+                    <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
+                       href={"/upgrade/premium"}>Get Premium to see this book</a>)
+            }
         }
-        document.title="Online Library"+name;
+        return "";
+    }
+
+    render() {
+        var name = "";
+        if (this.state.data) {
+            name = ": " + this.state.data.title;
+        }
+        document.title = "Online Library" + name;
         if (!this.state.data) {
             return (<Nav></Nav>)
         }
@@ -71,6 +116,7 @@ class BookDetails extends Component {
         return (
             <div>
                 <Nav></Nav>
+                <a id={"test"}></a>
 
                 <div className="container bg-light rounded mt-3">
                     <div className="row">
@@ -106,14 +152,16 @@ class BookDetails extends Component {
                             </div>
                             <div className={"row"}>
                                 <div className={"col"}>
+                                    <a href={"/publisher/"+this.state.publisher.id}>
                                     {this.state.publisher.name}
+                                    </a>
                                 </div>
                             </div>
                             <div className={"row"}>
                                 <div className={"col"}>
                                     {
                                         this.state.genres.map(genre => {
-                                            return <a href={"/genre/"+genre.id}>
+                                            return <a href={"/genre/" + genre.id}>
                                                 <span className="border rounded p-2 m-1 small-text"
                                                       id={"span_author_" + this.state.id}>{genre.name}
                                                 </span>
@@ -124,21 +172,29 @@ class BookDetails extends Component {
                             </div>
                             <div className={"row mt-3"}>
                                 <div className={"col"}>
-                                    <a className="btn btn-primary btn btn-primary btn btn-primary align-content-center w-50"
-                                       target="_blank"
-                                       href={"http://localhost:8080/books/pdf/" + this.state.id}>Download PDF</a>
+                                    {this.getDownloadPdfButton(this.state.userDetails,this.state.data)}
+
                                 </div>
                             </div>
-                            <div className={"row mt-3"}>
-                                <div className={"col"}>
-                                    <a href={"/editBook/" + this.state.id} className={"btn btn-primary"}>Edit</a>
+                            {checkUserHasRole(this.state.userDetails, "ADMIN") ?
+                                <div className={"row mt-3"}>
+                                    <div className={"col"}>
+                                        <a href={"/editBook/" + this.state.id}
+                                           className={"btn btn-primary"}>Edit</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className={"row mt-3"}>
-                                <div className={"col"}>
-                                    <button className="btn btn-danger" onClick={this.delete.bind(this)}>Delete</button>
+                                : ""
+                            }
+                            {checkUserHasRole(this.state.userDetails, "ADMIN") ?
+                                <div className={"row mt-3"}>
+                                    <div className={"col"}>
+                                        <button className="btn btn-danger"
+                                                onClick={this.delete.bind(this)}>Delete
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
+                                : ""}
+
                         </div>
                     </div>
                     <div className={"row mt-5"}>
