@@ -45,6 +45,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //            // this disables session creation on Spring Security
 //            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.cors().and().csrf().disable().authorizeRequests()
+            .antMatchers(HttpMethod.POST,"/publisher/save").hasAuthority(Constants.Roles.ADMIN_USER)
             .antMatchers(HttpMethod.POST,"/users/changePassword").hasAnyAuthority(Constants.Roles.REGISTERED_USER,Constants.Roles.PREMIUM_USER,Constants.Roles.ADMIN_USER)
             .antMatchers(HttpMethod.POST, SIGN_UP_URL, "/books/image/**", "/comment/**").permitAll()
             .antMatchers(HttpMethod.GET, "/users/details/**","/books/**","/genre/**","/publisher/**","/authors/**", "/comment/**","/search/**").permitAll()

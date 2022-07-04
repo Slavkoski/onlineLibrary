@@ -63,9 +63,9 @@ class AuthorDetails extends Component {
                                                      src={"http://localhost:8080/authors/image/" + this.state.id}/>
                                             </div>
                                             <div className={"col ml-5"}>
-                                                <h3>{this.state.data.firstName} {this.state.data.lastName}</h3>
-                                                {this.state.data.birthDate.substr(0, this.state.data.birthDate.indexOf("T"))}<br/>
-                                                {this.state.data.city}, {this.state.data.country}<br/>
+                                                <h3 className={"pb-3"}>{this.state.data.firstName} {this.state.data.lastName}</h3>
+                                                <p className={"lead"}>{this.state.data.birthDate.substr(0, this.state.data.birthDate.indexOf("T"))}</p>
+                                                <p className={"lead"}>{this.state.data.city}, {this.state.data.country}</p>
                                                 {this.state.currentUser && checkUserHasRole(this.state.currentUser, "ADMIN")
                                                     ?
                                                     <div>

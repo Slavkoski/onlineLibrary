@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Nav from "../Nav/Nav";
 import axios from 'axios';
+import fetchClient from "../../fetchClient";
 
 class EditAuthor extends Component {
 
@@ -23,7 +24,7 @@ class EditAuthor extends Component {
 
     async addAuthor(event) {
         event.preventDefault();
-        axios.post("http://localhost:8080/authors/save", new FormData(event.target), {})
+        fetchClient.post("http://localhost:8080/authors/save", new FormData(event.target), {})
             .then(res => {
                 this.props.history.push("/author/" + res.data.id);
             });

@@ -41,7 +41,7 @@ class CategoryList extends Component {
                                            href={"/genre/" + item.id}>
                                             <li key={"index" + index}
                                                 className={"p-2 ml-3"}>{item.name}
-                                                {item.books ? item.books.length : 0}
+                                                ({item.books ? item.books.length : 0})
                                             </li>
                                         </a>
                                         :
